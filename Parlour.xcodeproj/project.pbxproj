@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		6083AB1CC334846CDB65ED19 /* Pods_Parlour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BF9C30FEDC5BB58D5769A0 /* Pods_Parlour.framework */; };
+		6828C78621AFC20300BE14CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6828C78521AFC20300BE14CC /* GoogleService-Info.plist */; };
 		68D756D821AD4E15005C0A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D721AD4E15005C0A5B /* AppDelegate.swift */; };
 		68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D921AD4E15005C0A5B /* LoginViewController.swift */; };
 		68D756DD21AD4E15005C0A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D756DB21AD4E15005C0A5B /* Main.storyboard */; };
 		68D756DF21AD4E16005C0A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68D756DE21AD4E16005C0A5B /* Assets.xcassets */; };
 		68D756E221AD4E16005C0A5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D756E021AD4E16005C0A5B /* LaunchScreen.storyboard */; };
-		68D756EA21AD50D0005C0A5B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D756E921AD50D0005C0A5B /* GoogleService-Info.plist */; };
 		68D756ED21AD56CE005C0A5B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756EC21AD56CE005C0A5B /* User.swift */; };
 		68D756EF21AD8A81005C0A5B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756EE21AD8A81005C0A5B /* SignUpViewController.swift */; };
 		68D756F121AD9D61005C0A5B /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */; };
@@ -22,6 +22,7 @@
 /* Begin PBXFileReference section */
 		2DB410208F97761A4ED92513 /* Pods-Parlour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parlour.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Parlour/Pods-Parlour.debug.xcconfig"; sourceTree = "<group>"; };
 		56BF9C30FEDC5BB58D5769A0 /* Pods_Parlour.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Parlour.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6828C78521AFC20300BE14CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		68D756D421AD4E15005C0A5B /* Parlour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parlour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D756D721AD4E15005C0A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D756D921AD4E15005C0A5B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -29,7 +30,6 @@
 		68D756DE21AD4E16005C0A5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68D756E121AD4E16005C0A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68D756E321AD4E16005C0A5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		68D756E921AD50D0005C0A5B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		68D756EC21AD56CE005C0A5B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		68D756EE21AD8A81005C0A5B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 				68D756DE21AD4E16005C0A5B /* Assets.xcassets */,
 				68D756E021AD4E16005C0A5B /* LaunchScreen.storyboard */,
 				68D756E321AD4E16005C0A5B /* Info.plist */,
-				68D756E921AD50D0005C0A5B /* GoogleService-Info.plist */,
+				6828C78521AFC20300BE14CC /* GoogleService-Info.plist */,
 			);
 			path = Parlour;
 			sourceTree = "<group>";
@@ -168,7 +168,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68D756EA21AD50D0005C0A5B /* GoogleService-Info.plist in Resources */,
+				6828C78621AFC20300BE14CC /* GoogleService-Info.plist in Resources */,
 				68D756E221AD4E16005C0A5B /* LaunchScreen.storyboard in Resources */,
 				68D756DF21AD4E16005C0A5B /* Assets.xcassets in Resources */,
 				68D756DD21AD4E15005C0A5B /* Main.storyboard in Resources */,
