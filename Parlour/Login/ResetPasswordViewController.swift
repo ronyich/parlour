@@ -12,10 +12,9 @@ import Firebase
 class ResetPasswordViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
 
     }
 
@@ -43,7 +42,7 @@ class ResetPasswordViewController: UIViewController {
 
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: { (_) in
 
                 if error == nil {
 
@@ -64,9 +63,9 @@ class ResetPasswordViewController: UIViewController {
     }
 
     @IBAction func cancelResetPasswordPage(_ sender: UIButton) {
-        
+
         self.dismiss(animated: true)
-        
+
     }
 
 }

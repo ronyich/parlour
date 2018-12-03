@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoMainCollectionViewCell" id="gTV-IL-0wX" customClass="VideoMainCollectionViewCell" customModule="Parlour" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="190"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="300" height="190"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iK1-Wi-gSO">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="190"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GSw-kI-BFF">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="190"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="GSw-kI-BFF" firstAttribute="top" secondItem="iK1-Wi-gSO" secondAttribute="top" id="EHK-80-CkL"/>
+                            <constraint firstAttribute="bottom" secondItem="GSw-kI-BFF" secondAttribute="bottom" id="Ltg-Td-HEc"/>
+                            <constraint firstAttribute="trailing" secondItem="GSw-kI-BFF" secondAttribute="trailing" id="UWL-Zt-LKa"/>
+                            <constraint firstItem="GSw-kI-BFF" firstAttribute="leading" secondItem="iK1-Wi-gSO" secondAttribute="leading" id="sa8-zN-PM4"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="iK1-Wi-gSO" secondAttribute="bottom" id="9Ub-NF-HKX"/>
+                <constraint firstItem="iK1-Wi-gSO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Ps3-l3-Md4"/>
+                <constraint firstAttribute="trailing" secondItem="iK1-Wi-gSO" secondAttribute="trailing" id="Shd-6h-9bz"/>
+                <constraint firstItem="iK1-Wi-gSO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ew8-Cr-qMw"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="videoMainImageView" destination="GSw-kI-BFF" id="N1M-5b-nlX"/>
+            </connections>
+            <point key="canvasLocation" x="52.799999999999997" y="48.575712143928037"/>
+        </collectionViewCell>
+    </objects>
+</document>

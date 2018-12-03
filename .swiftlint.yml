@@ -1,0 +1,11 @@
+disabled_rules: #關閉某些預設開啟的規則
+- line_length
+- file_length
+- function_body_length
+- statement_position
+excluded: #執行 linting 時忽略的路徑
+ - Carthage
+ - Pods
+identifier_name:
+  excluded: #排除某些名字
+    - id

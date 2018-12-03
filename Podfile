@@ -9,5 +9,9 @@ target 'Parlour' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
-  
+
+  pod 'JGProgressHUD'
+  pod 'XCDYouTubeKit'
+  pod 'MessageKit'
+
 end
