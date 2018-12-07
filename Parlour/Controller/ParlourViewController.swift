@@ -30,6 +30,8 @@ class ParlourViewController: UIViewController {
         videoMainImageView.addGestureRecognizer(tapGestureRecognizer)
         videoMainImageView.isUserInteractionEnabled = true
 
+        performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
+
 //        collectionView.delegate = self
 //        collectionView.dataSource = self
 //        collectionView.register(UINib(nibName: "VideoMainCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VideoMainCollectionViewCell")

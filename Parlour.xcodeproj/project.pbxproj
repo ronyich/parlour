@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6083AB1CC334846CDB65ED19 /* Pods_Parlour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BF9C30FEDC5BB58D5769A0 /* Pods_Parlour.framework */; };
-		6828C78821AFC75E00BE14CC /* LiveChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C78721AFC75E00BE14CC /* LiveChat.swift */; };
+		6828C78821AFC75E00BE14CC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C78721AFC75E00BE14CC /* Message.swift */; };
 		6828C78C21AFD65800BE14CC /* HomePageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C78B21AFD65800BE14CC /* HomePageCollectionViewController.swift */; };
 		6828C78F21AFE53000BE14CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6828C78E21AFE53000BE14CC /* GoogleService-Info.plist */; };
 		6828C79221B1159600BE14CC /* ParlourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C79121B1159600BE14CC /* ParlourViewController.swift */; };
@@ -18,6 +18,7 @@
 		6828C79E21B502E500BE14CC /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C79D21B502E500BE14CC /* ChatRoomViewController.swift */; };
 		6828C7A421B64E2B00BE14CC /* UICollectionView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7A321B64E2A00BE14CC /* UICollectionView+Additions.swift */; };
 		6828C7A621B677A900BE14CC /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7A521B677A900BE14CC /* ChatViewController.swift */; };
+		6828C7AA21B84BE500BE14CC /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7A921B84BE500BE14CC /* Channel.swift */; };
 		68D756D821AD4E15005C0A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D721AD4E15005C0A5B /* AppDelegate.swift */; };
 		68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D921AD4E15005C0A5B /* LoginViewController.swift */; };
 		68D756DD21AD4E15005C0A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D756DB21AD4E15005C0A5B /* Main.storyboard */; };
@@ -31,7 +32,7 @@
 /* Begin PBXFileReference section */
 		2DB410208F97761A4ED92513 /* Pods-Parlour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parlour.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Parlour/Pods-Parlour.debug.xcconfig"; sourceTree = "<group>"; };
 		56BF9C30FEDC5BB58D5769A0 /* Pods_Parlour.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Parlour.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6828C78721AFC75E00BE14CC /* LiveChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChat.swift; sourceTree = "<group>"; };
+		6828C78721AFC75E00BE14CC /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6828C78B21AFD65800BE14CC /* HomePageCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageCollectionViewController.swift; sourceTree = "<group>"; };
 		6828C78E21AFE53000BE14CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6828C79121B1159600BE14CC /* ParlourViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParlourViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +42,7 @@
 		6828C79D21B502E500BE14CC /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		6828C7A321B64E2A00BE14CC /* UICollectionView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Additions.swift"; sourceTree = "<group>"; };
 		6828C7A521B677A900BE14CC /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		6828C7A921B84BE500BE14CC /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		68D756D421AD4E15005C0A5B /* Parlour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parlour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D756D721AD4E15005C0A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D756D921AD4E15005C0A5B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -97,7 +99,8 @@
 		6828C79F21B541F900BE14CC /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				6828C78721AFC75E00BE14CC /* LiveChat.swift */,
+				6828C78721AFC75E00BE14CC /* Message.swift */,
+				6828C7A921B84BE500BE14CC /* Channel.swift */,
 				6828C79D21B502E500BE14CC /* ChatRoomViewController.swift */,
 				6828C7A521B677A900BE14CC /* ChatViewController.swift */,
 			);
@@ -318,8 +321,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */,
+				6828C7AA21B84BE500BE14CC /* Channel.swift in Sources */,
 				6828C79B21B4E5CC00BE14CC /* VideoMainCollectionViewCell.swift in Sources */,
-				6828C78821AFC75E00BE14CC /* LiveChat.swift in Sources */,
+				6828C78821AFC75E00BE14CC /* Message.swift in Sources */,
 				6828C79421B12E6B00BE14CC /* YouTubeVideoQuality.swift in Sources */,
 				6828C7A621B677A900BE14CC /* ChatViewController.swift in Sources */,
 				6828C79221B1159600BE14CC /* ParlourViewController.swift in Sources */,

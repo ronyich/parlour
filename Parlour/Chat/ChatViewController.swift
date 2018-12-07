@@ -9,10 +9,31 @@
 import UIKit
 import Firebase
 import MessageKit
+import MessageInputBar
 
-class ChatViewController: MessagesViewController {
+protocol ChatDelegate: AnyObject {
+
+    func manager(_ manager: ChatViewController, didFailWith error: Error)
+}
+
+enum ErrorMessage: Error {
+
+    case userIDNotFound, displayNameNotFound, snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError
+
+}
+
+class ChatViewController: UIViewController {
+
+    weak var delegate: ChatDelegate?
+
+//    @IBOutlet weak var messagesCollectionView: MessagesCollectionView!
+
+    let messagesCollectionView = MessagesCollectionView()
 
     var messages: [Message] = []
+
+    var messageIds: [String] = []
+
     var sender = Sender(id: "", displayName: "")
 
     var user: User?
@@ -25,44 +46,137 @@ class ChatViewController: MessagesViewController {
 
     let database = Database.database()
 
-    let channelsReference = Database.database().reference(withPath: "channels")
+    let channelReference = Database.database().reference(withPath: "channel")
 
-    let messageReference = Database.database().reference(withPath: "message")
+    let messageReference = Database.database().reference(withPath: "channel/message")
+
+    let channelReferenceAutoIdKey = Database.database().reference(withPath: "channel").childByAutoId().key
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         contentView.addSubview(messagesCollectionView)
-
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
 
-        messageReference.childByAutoId().queryOrdered(byChild: "content").observe(.value) { (snapshot) in
+        guard
+            let uid = Auth.auth().currentUser?.uid
+            else { self.delegate?.manager(self, didFailWith: ErrorMessage.userIDNotFound)
+                return
+        }
 
-            var newItems: [Message] = []
+        guard
+            let displayName = Auth.auth().currentUser?.displayName
+            else { self.delegate?.manager(self, didFailWith: ErrorMessage.displayNameNotFound)
+                return
+        }
+
+        self.sender = Sender(id: uid, displayName: displayName)
+
+        //let channelReference = Database.database().reference(withPath: "channel")
+        channelReference.queryOrdered(byChild: "message").observe(.value) { (snapshot) in
+
+            var newMessages: [Message] = []
 
             for child in snapshot.children {
 
-                if let snapshot = child as? DataSnapshot,
-                    let messageItem = Message(snapshot: snapshot) {
+                if let snapshot = child as? DataSnapshot {
 
-                    newItems.append(messageItem)
+                    guard
+                        let dictionary = snapshot.value as? [String: Any]
+                        else { self.delegate?.manager(self, didFailWith: ErrorMessage.snapshotValueAsDictionaryError)
+                            return
+                    }
 
-                } else {
+                    for (messageID, messageValue) in dictionary {
 
-                    print("snapshot child can't as DataSnapshot.")
+                        print("messageID", messageID)
+
+                        guard
+                            let messageDictionary = messageValue as? [String: Any]
+                            else { self.delegate?.manager(self, didFailWith: ErrorMessage.messageValueAsDictionaryError)
+                                return
+                        }
+
+                        guard
+                            let content = messageDictionary["content"] as? String
+                            else { self.delegate?.manager(self, didFailWith: ErrorMessage.messageContentAsStringError)
+                                return
+                        }
+
+                        print("content", content)
+
+                        let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: Date(), kind: .text(content))
+
+                        newMessages.append(message)
+
+                    }
 
                 }
 
             }
 
-            self.messages = newItems
+            DispatchQueue.main.async {
+
+                self.messages = newMessages
+
+                print("self.messages.count", self.messages.count)
+
+            }
+
             self.messagesCollectionView.reloadData()
 
         }
 
     }
+
+//    func fetchMessage() {
+
+//        guard
+//            let channelID = channelReferenceAutoIdKey
+//            else { print("channelReferenceAutoID is nil.")
+//                return
+//        }
+//        channelReference.child(channelPassword).childByAutoId().observeSingleEvent(of: .value) { (snapshot) in
+//
+//            print("snapshot", snapshot.value)
+//            if let dictionary = snapshot.value as? [ String: AnyObject ] {
+//
+//                guard
+//                    let message = dictionary["message"]
+//                    else { print("dictionary[message] is nil.")
+//                        return
+//                }
+//
+//                guard
+//                    let key = self.messageReference.key
+//                    else { print("messageReference.key is nil.")
+//                        return
+//                }
+//
+//                guard
+//                    let messageId = message["\(key)"] as? Message
+//                    else { print("messageId as Message error.")
+//                        return
+//                }
+//
+//                self.messages.append(messageId)
+//
+//                print("dictionary", dictionary)
+//                print("snapshot", snapshot)
+//                print("messageArray", message)
+//                print("messageId", messageId)
+//
+//            } else {
+//
+//                print("snapshot.value as? [ String: AnyObject ] error.")
+//
+//            }
+//
+//        }
+//    }
 
     @IBAction func addNewMessageDidTouch(_ sender: UIButton) {
 
@@ -95,6 +209,8 @@ class ChatViewController: MessagesViewController {
         let messageItem = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageId, sentDate: Date(), kind: .text(inputText))
 
         messageItemReference.setValue(messageItem.saveAnyObjectToFirebase(inputString: inputText))
+
+        inputMessageTextField.text = ""
 
         messages.append(messageItem)
         messagesCollectionView.reloadData()
@@ -132,6 +248,7 @@ class ChatViewController: MessagesViewController {
 
 }
 
+// MARK: - MessagesDataSource
 extension ChatViewController: MessagesDataSource {
 
     func currentSender() -> Sender {
@@ -141,6 +258,9 @@ extension ChatViewController: MessagesDataSource {
     }
 
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+
+        print("messages", messages)
+        print("messages[indexPath.section]", messages[indexPath.section])
 
         return messages[indexPath.section]
 
