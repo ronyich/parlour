@@ -22,13 +22,23 @@ enum ErrorMessage: Error {
 
 }
 
+class MyChatViewController: MessagesViewController, MessageInputBarDelegate {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+//        messageInputBar.delegate = self
+    }
+
+}
+
 class ChatViewController: UIViewController {
 
     weak var delegate: ChatDelegate?
 
 //    @IBOutlet weak var messagesCollectionView: MessagesCollectionView!
 
-    let messagesCollectionView = MessagesCollectionView()
+    let messagesViewController = MessagesViewController()
 
     var messages: [Message] = []
 
@@ -55,11 +65,24 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        contentView.addSubview(messagesCollectionView)
-        
-        messagesCollectionView.messagesDataSource = self
-        messagesCollectionView.messagesLayoutDelegate = self
-        messagesCollectionView.messagesDisplayDelegate = self
+        addChild(messagesViewController)
+
+        messagesViewController.messagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(messagesViewController.view)
+
+        // ????????
+//        contentView.addSubview(messagesViewController.messagesCollectionView)
+
+        messagesCollectionViewInMessagesViewControllerConstraint()
+
+        messagesViewController.didMove(toParent: self)
+
+        messagesViewController.messagesCollectionView.backgroundColor = .lightGray
+
+        messagesViewController.messagesCollectionView.messagesDataSource = self
+        messagesViewController.messagesCollectionView.messagesLayoutDelegate = self
+        messagesViewController.messagesCollectionView.messagesDisplayDelegate = self
 
         guard
             let uid = Auth.auth().currentUser?.uid
@@ -118,17 +141,33 @@ class ChatViewController: UIViewController {
 
             }
 
+            let sortMessages = newMessages.sorted { $0.sentDate.description < $1.sentDate.description }
+
+            print("sortMessages", sortMessages)
             DispatchQueue.main.async {
 
+//                print("sortMessages2", sortMessages)
                 self.messages = newMessages
 
                 print("self.messages.count", self.messages.count)
 
+                self.messagesViewController.messagesCollectionView.reloadData()
+
             }
 
-            self.messagesCollectionView.reloadData()
-
         }
+
+    }
+
+    func messagesCollectionViewInMessagesViewControllerConstraint() {
+
+        messagesViewController.messagesCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
+
+        messagesViewController.messagesCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+
+        messagesViewController.messagesCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
+
+        messagesViewController.messagesCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
 
     }
 
@@ -213,7 +252,7 @@ class ChatViewController: UIViewController {
         inputMessageTextField.text = ""
 
         messages.append(messageItem)
-        messagesCollectionView.reloadData()
+        messagesViewController.messagesCollectionView.reloadData()
 
         print("messages", self.messages)
     }
@@ -259,9 +298,11 @@ extension ChatViewController: MessagesDataSource {
 
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
 
-        print("messages", messages)
         print("messages[indexPath.section]", messages[indexPath.section])
 
+        let sortMessages = messages.sorted(by: { $0.sentDate.description > $1.sentDate.description })
+
+//        print("sortMessages", sortMessages)
         return messages[indexPath.section]
 
     }

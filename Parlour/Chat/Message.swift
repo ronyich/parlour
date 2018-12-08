@@ -32,17 +32,14 @@ struct Message: MessageType {
 
     init?(snapshot: DataSnapshot) {
 
-        print("snapshot", snapshot)
-        print("snapshot.value", snapshot.value)
-
         guard
-            let value = snapshot.value as? [String: Any]
+            let snapshotDictionary = snapshot.value as? [String: Any]
             else { print("snapshot.value as? [String: Any] error")
                 return nil
         }
 
 //        print("value", value)
-        
+
 //        for (messageID, value) in dictinary {
 //            
 //            print(messageID)
@@ -50,11 +47,10 @@ struct Message: MessageType {
 //            print(value)
 //            
 //        }
-        
 
         var messageIds: [String] = []
 
-        for messageId in value.keys {
+        for messageId in snapshotDictionary.keys {
 
             messageIds.append(messageId)
             print("messageId", messageId)
@@ -62,7 +58,7 @@ struct Message: MessageType {
         }
 
         guard
-            let messageId = value["\(messageIds)"] as? [String: Any]
+            let messageId = snapshotDictionary["\(messageIds)"] as? [String: Any]
             else { print("value messageId as? [String: Any] error.")
                 return nil
         }
@@ -81,18 +77,18 @@ struct Message: MessageType {
 
         guard
             let displayName = senderDictionary["displayName"] as? String
-            else{ print("senderDictionary displayName as? String error.")
+            else { print("senderDictionary displayName as? String error.")
                 return nil
         }
 
         guard
-            let sentDate = value["sentDate"] as? Date
+            let sentDate = snapshotDictionary["sentDate"] as? Date
             else { print("value sentDate as? Date error.")
                 return nil
         }
 
         guard
-            let content = value["content"] as? String
+            let content = snapshotDictionary["content"] as? String
             else { print("value content as? String error.")
                 return nil
         }
@@ -153,15 +149,15 @@ struct Setting {
 }
 
 struct LiveChat {
-    
+
     let chatID: String
     let startTime: Date
-    
+
     var isLive: Bool
     var userQuantity: Int
-    
+
     var message: Message
     var video: Video
     var setting: Setting
-    
+
 }

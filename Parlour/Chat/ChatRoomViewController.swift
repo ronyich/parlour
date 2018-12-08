@@ -25,7 +25,7 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        playVideo(videoIdentifier: "gKwN39UwM9Y")
+        playVideo(videoIdentifier: "rLMHGjoxJdQ")
 
         self.tabBarController?.tabBar.isHidden = true
 

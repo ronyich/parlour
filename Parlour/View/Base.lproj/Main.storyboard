@@ -734,7 +734,7 @@
                                 <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2SD-Rg-JUi">
-                                <rect key="frame" x="10" y="353" width="300" height="30"/>
+                                <rect key="frame" x="10" y="313" width="300" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="B5r-2A-sEx"/>
                                     <constraint firstAttribute="width" constant="300" id="BE6-Ap-Ckq"/>
@@ -747,7 +747,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w01-09-O7w">
-                                <rect key="frame" x="329" y="353" width="36" height="30"/>
+                                <rect key="frame" x="329" y="313" width="36" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="COA-x0-CUI"/>
                                     <constraint firstAttribute="height" constant="30" id="uwU-Vp-5rd"/>
@@ -761,9 +761,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="w01-09-O7w" secondAttribute="trailing" constant="10" id="28Q-pt-BPB"/>
-                            <constraint firstAttribute="bottom" secondItem="w01-09-O7w" secondAttribute="bottom" constant="10" id="3zv-KL-QMY"/>
+                            <constraint firstAttribute="bottom" secondItem="w01-09-O7w" secondAttribute="bottom" constant="50" id="3zv-KL-QMY"/>
                             <constraint firstItem="2SD-Rg-JUi" firstAttribute="leading" secondItem="Pow-fT-UhY" secondAttribute="leading" constant="10" id="Iba-Wp-q7m"/>
-                            <constraint firstAttribute="bottom" secondItem="2SD-Rg-JUi" secondAttribute="bottom" constant="10" id="KyH-65-dOK"/>
+                            <constraint firstAttribute="bottom" secondItem="2SD-Rg-JUi" secondAttribute="bottom" constant="50" id="KyH-65-dOK"/>
                             <constraint firstAttribute="bottom" secondItem="dht-C9-kpQ" secondAttribute="bottom" id="inH-6i-eY1"/>
                             <constraint firstItem="dht-C9-kpQ" firstAttribute="top" secondItem="Pow-fT-UhY" secondAttribute="top" id="njS-yE-IH5"/>
                             <constraint firstItem="dht-C9-kpQ" firstAttribute="leading" secondItem="Pow-fT-UhY" secondAttribute="leading" id="nsX-Hq-Zp2"/>
@@ -771,7 +771,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="contentView" destination="dht-C9-kpQ" id="qlX-eB-IIP"/>
+                        <outlet property="contentView" destination="dht-C9-kpQ" id="k1d-b9-vLa"/>
                         <outlet property="inputMessageTextField" destination="2SD-Rg-JUi" id="erl-jH-0SG"/>
                     </connections>
                 </viewController>
@@ -779,27 +779,13 @@
             </objects>
             <point key="canvasLocation" x="4461.6000000000004" y="-477.21139430284859"/>
         </scene>
-        <!--View Controller-->
+        <!--My Chat View Controller-->
         <scene sceneID="rbO-2S-kph">
             <objects>
-                <viewController id="7fq-yS-sDe" sceneMemberID="viewController">
+                <viewController id="7fq-yS-sDe" customClass="MyChatViewController" customModule="Parlour" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ErQ-QS-LA4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qKs-5u-W9V">
-                                <rect key="frame" x="67" y="93" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="abJ-hU-GXx">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="XTV-Ib-2hy"/>
                     </view>
