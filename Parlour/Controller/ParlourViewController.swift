@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import XCDYouTubeKit
 import AVKit
 import MessageKit
@@ -146,6 +147,28 @@ class ParlourViewController: UIViewController {
 //        }
 
         performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
+    }
+
+    @IBAction func logOutToLoginView(_ sender: UIBarButtonItem) {
+
+        do {
+
+            try Auth.auth().signOut()
+            self.dismiss(animated: true)
+
+        } catch {
+
+            let alert = UIAlertController(title: "Logout Error.",
+                                          message: error.localizedDescription,
+                                          preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .cancel)
+
+            alert.addAction(okAction)
+
+        }
+
     }
 
 }

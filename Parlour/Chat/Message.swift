@@ -108,11 +108,8 @@ struct Message: MessageType {
 
         return [
 
-            "sender": [
-                "senderID": sender.id,
-                "displayName": sender.displayName
-            ],
-
+            "senderID": sender.id,
+            "displayName": sender.displayName,
             "sentDate": sentDate.description,
             "content": inputString
 

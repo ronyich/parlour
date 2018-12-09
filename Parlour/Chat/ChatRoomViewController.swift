@@ -68,7 +68,28 @@ class ChatRoomViewController: UIViewController {
             equalTo: videoMainView.bottomAnchor, constant: 0).isActive = true
 
     }
+    @IBAction func logOutToLoginView(_ sender: UIBarButtonItem) {
 
+        do {
+            
+            try Auth.auth().signOut()
+            self.dismiss(animated: true)
+            
+        } catch {
+            
+            let alert = UIAlertController(title: "Logout Error.",
+                                          message: error.localizedDescription,
+                                          preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .cancel)
+            
+            alert.addAction(okAction)
+            
+        }
+
+    }
+    
 }
 
 // MARK: MessagesDataSource

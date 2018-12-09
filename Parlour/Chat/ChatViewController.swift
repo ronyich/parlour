@@ -22,16 +22,6 @@ enum ErrorMessage: Error {
 
 }
 
-class MyChatViewController: MessagesViewController, MessageInputBarDelegate {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-//        messageInputBar.delegate = self
-    }
-
-}
-
 class ChatViewController: UIViewController {
 
     weak var delegate: ChatDelegate?
@@ -96,11 +86,50 @@ class ChatViewController: UIViewController {
                 return
         }
 
+//        channelReference.child("message").queryOrdered(byChild: "sentDate").observeSingleEvent(of: .value) { (snapshot) in
+//
+//            print("snapshot.children", snapshot.children)
+//            print("snapshot.value", snapshot.value)
+//
+//            guard
+//                let dictionary = snapshot.value as? [String: Any]
+//                else { self.delegate?.manager(self, didFailWith: ErrorMessage.snapshotValueAsDictionaryError)
+//                    return
+//            }
+//
+//            print("dictionary", dictionary)
+//
+//            var newMessages: [Message] = []
+//
+//            for (messageID, messageBody) in dictionary {
+//
+//                guard
+//                    let messageDictionary = messageBody as? [String: Any]
+//                    else { self.delegate?.manager(self, didFailWith: ErrorMessage.messageContentAsStringError)
+//                        return
+//                }
+//
+//                guard
+//                    let content = messageDictionary["content"] as? String
+//                    else { self.delegate?.manager(self, didFailWith: ErrorMessage)
+//                        return
+//                }
+//
+//                let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: Date(), kind: .text(content))
+//
+//                newMessages.append(message)
+//            }
+//
+//            self.messages = newMessages
+//
+//        }
+
         self.sender = Sender(id: uid, displayName: displayName)
 
-        //let channelReference = Database.database().reference(withPath: "channel")
-        channelReference.queryOrdered(byChild: "message").observe(.value) { (snapshot) in
+        channelReference.queryOrdered(byChild: "sentDate").observe(.value) { (snapshot) in
 
+            print("snapshot.children2", snapshot.children)
+            print("snapshot.value2", snapshot.value)
             var newMessages: [Message] = []
 
             for child in snapshot.children {
@@ -112,6 +141,8 @@ class ChatViewController: UIViewController {
                         else { self.delegate?.manager(self, didFailWith: ErrorMessage.snapshotValueAsDictionaryError)
                             return
                     }
+
+                    print("dictionary", dictionary)
 
                     for (messageID, messageValue) in dictionary {
 
@@ -142,14 +173,17 @@ class ChatViewController: UIViewController {
             }
 
             let sortMessages = newMessages.sorted { $0.sentDate.description < $1.sentDate.description }
-
             print("sortMessages", sortMessages)
+
+            self.messages = sortMessages
+
             DispatchQueue.main.async {
 
-//                print("sortMessages2", sortMessages)
-                self.messages = newMessages
+                let sortMessages = newMessages.sorted { $0.sentDate < $1.sentDate }
 
-                print("self.messages.count", self.messages.count)
+                self.messages = sortMessages
+
+                print("sortMessages", sortMessages)
 
                 self.messagesViewController.messagesCollectionView.reloadData()
 
@@ -170,52 +204,6 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
 
     }
-
-//    func fetchMessage() {
-
-//        guard
-//            let channelID = channelReferenceAutoIdKey
-//            else { print("channelReferenceAutoID is nil.")
-//                return
-//        }
-//        channelReference.child(channelPassword).childByAutoId().observeSingleEvent(of: .value) { (snapshot) in
-//
-//            print("snapshot", snapshot.value)
-//            if let dictionary = snapshot.value as? [ String: AnyObject ] {
-//
-//                guard
-//                    let message = dictionary["message"]
-//                    else { print("dictionary[message] is nil.")
-//                        return
-//                }
-//
-//                guard
-//                    let key = self.messageReference.key
-//                    else { print("messageReference.key is nil.")
-//                        return
-//                }
-//
-//                guard
-//                    let messageId = message["\(key)"] as? Message
-//                    else { print("messageId as Message error.")
-//                        return
-//                }
-//
-//                self.messages.append(messageId)
-//
-//                print("dictionary", dictionary)
-//                print("snapshot", snapshot)
-//                print("messageArray", message)
-//                print("messageId", messageId)
-//
-//            } else {
-//
-//                print("snapshot.value as? [ String: AnyObject ] error.")
-//
-//            }
-//
-//        }
-//    }
 
     @IBAction func addNewMessageDidTouch(_ sender: UIButton) {
 
@@ -300,7 +288,7 @@ extension ChatViewController: MessagesDataSource {
 
         print("messages[indexPath.section]", messages[indexPath.section])
 
-        let sortMessages = messages.sorted(by: { $0.sentDate.description > $1.sentDate.description })
+//        let sortMessages = messages.sorted(by: { $0.sentDate.description > $1.sentDate.description })
 
 //        print("sortMessages", sortMessages)
         return messages[indexPath.section]
@@ -322,3 +310,4 @@ extension ChatViewController: MessagesDisplayDelegate {
 extension ChatViewController: MessagesLayoutDelegate {
 
 }
+
