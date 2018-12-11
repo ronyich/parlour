@@ -16,12 +16,6 @@ protocol ChatDelegate: AnyObject {
     func manager(_ manager: ChatViewController, didFailWith error: Error)
 }
 
-enum ErrorMessage: Error {
-
-    case userIDNotFound, displayNameNotFound, snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError
-
-}
-
 class ChatViewController: UIViewController {
 
     weak var delegate: ChatDelegate?
@@ -29,6 +23,8 @@ class ChatViewController: UIViewController {
 //    @IBOutlet weak var messagesCollectionView: MessagesCollectionView!
 
     let messagesViewController = MessagesViewController()
+
+    var messageInputBar = MessageInputBar()
 
     var messages: [Message] = []
 
@@ -39,8 +35,6 @@ class ChatViewController: UIViewController {
     var user: User?
 
     @IBOutlet weak var inputMessageTextField: UITextField!
-
-    @IBOutlet weak var sendMessage: UIButton!
 
     @IBOutlet weak var contentView: UIView!
 
@@ -62,7 +56,7 @@ class ChatViewController: UIViewController {
         contentView.addSubview(messagesViewController.view)
 
         // ????????
-//        contentView.addSubview(messagesViewController.messagesCollectionView)
+        //contentView.addSubview(messagesViewController.messagesCollectionView)
 
         messagesCollectionViewInMessagesViewControllerConstraint()
 
@@ -74,15 +68,17 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.messagesLayoutDelegate = self
         messagesViewController.messagesCollectionView.messagesDisplayDelegate = self
 
+        //messageInputBar.delegate = self
+
         guard
             let uid = Auth.auth().currentUser?.uid
-            else { self.delegate?.manager(self, didFailWith: ErrorMessage.userIDNotFound)
+            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
                 return
         }
 
         guard
             let displayName = Auth.auth().currentUser?.displayName
-            else { self.delegate?.manager(self, didFailWith: ErrorMessage.displayNameNotFound)
+            else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
                 return
         }
 
@@ -128,8 +124,6 @@ class ChatViewController: UIViewController {
 
         channelReference.queryOrdered(byChild: "sentDate").observe(.value) { (snapshot) in
 
-            print("snapshot.children2", snapshot.children)
-            print("snapshot.value2", snapshot.value)
             var newMessages: [Message] = []
 
             for child in snapshot.children {
@@ -138,31 +132,40 @@ class ChatViewController: UIViewController {
 
                     guard
                         let dictionary = snapshot.value as? [String: Any]
-                        else { self.delegate?.manager(self, didFailWith: ErrorMessage.snapshotValueAsDictionaryError)
+                        else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotValueAsDictionaryError)
                             return
                     }
 
-                    print("dictionary", dictionary)
-
                     for (messageID, messageValue) in dictionary {
-
-                        print("messageID", messageID)
 
                         guard
                             let messageDictionary = messageValue as? [String: Any]
-                            else { self.delegate?.manager(self, didFailWith: ErrorMessage.messageValueAsDictionaryError)
+                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageValueAsDictionaryError)
                                 return
                         }
 
                         guard
                             let content = messageDictionary["content"] as? String
-                            else { self.delegate?.manager(self, didFailWith: ErrorMessage.messageContentAsStringError)
+                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageContentAsStringError)
                                 return
                         }
 
-                        print("content", content)
+                        guard
+                            let sentDateString = messageDictionary["sentDate"] as? String
+                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageSentDateAsStringError)
+                                return
+                        }
 
-                        let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: Date(), kind: .text(content))
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss +zzzz"
+
+                        guard
+                            let sentDate: Date = dateFormatter.date(from: sentDateString)
+                            else { self.delegate?.manager(self, didFailWith: TypeAsError.stringAsDateError)
+                                return
+                        }
+
+                        let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: sentDate, kind: .text(content))
 
                         newMessages.append(message)
 
@@ -172,20 +175,14 @@ class ChatViewController: UIViewController {
 
             }
 
-            let sortMessages = newMessages.sorted { $0.sentDate.description < $1.sentDate.description }
-            print("sortMessages", sortMessages)
-
-            self.messages = sortMessages
-
             DispatchQueue.main.async {
 
                 let sortMessages = newMessages.sorted { $0.sentDate < $1.sentDate }
 
                 self.messages = sortMessages
 
-                print("sortMessages", sortMessages)
-
                 self.messagesViewController.messagesCollectionView.reloadData()
+                self.messagesViewController.messagesCollectionView.scrollToBottom()
 
             }
 
@@ -241,6 +238,7 @@ class ChatViewController: UIViewController {
 
         messages.append(messageItem)
         messagesViewController.messagesCollectionView.reloadData()
+        messagesViewController.messagesCollectionView.scrollToBottom()
 
         print("messages", self.messages)
     }
@@ -286,11 +284,6 @@ extension ChatViewController: MessagesDataSource {
 
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
 
-        print("messages[indexPath.section]", messages[indexPath.section])
-
-//        let sortMessages = messages.sorted(by: { $0.sentDate.description > $1.sentDate.description })
-
-//        print("sortMessages", sortMessages)
         return messages[indexPath.section]
 
     }
@@ -311,3 +304,9 @@ extension ChatViewController: MessagesLayoutDelegate {
 
 }
 
+extension ChatViewController: MessageInputBarDelegate {
+
+    func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
+        //...editing
+    }
+}

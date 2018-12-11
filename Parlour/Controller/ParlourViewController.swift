@@ -24,41 +24,23 @@ class ParlourViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getVideothumbnail(videoIdentifier: "gKwN39UwM9Y")
+        getVideothumbnail(youtubeVideoIdentifier: "gKwN39UwM9Y")
 
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(goToChatView))
+
         videoMainImageView.addGestureRecognizer(tapGestureRecognizer)
         videoMainImageView.isUserInteractionEnabled = true
 
         performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
 
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-//        collectionView.register(UINib(nibName: "VideoMainCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VideoMainCollectionViewCell")
-
-//        playerViewController.view.translatesAutoresizingMaskIntoConstraints = false
-
-//        videoMainView.addSubview(playerViewController.view)
-//
-//        playerViewController.view.leadingAnchor.constraint(
-//            equalTo: videoMainView.leadingAnchor, constant: 0).isActive = true
-//        playerViewController.view.topAnchor.constraint(
-//            equalTo: videoMainView.topAnchor, constant: 0).isActive = true
-//        playerViewController.view.trailingAnchor.constraint(
-//            equalTo: videoMainView.trailingAnchor, constant: 0).isActive = true
-//        playerViewController.view.bottomAnchor.constraint(
-//            equalTo: videoMainView.bottomAnchor, constant: 0).isActive = true
-
-//        playVideo(videoIdentifier: "tCXGJQYZ9JA")
-
     }
 
-    func playVideo(videoIdentifier: String?) {
+    func playVideo(youtubeVideoIdentifier: String?) {
 
         //self.present(playerViewController, animated: true, completion: nil)
 
-        XCDYouTubeClient.default().getVideoWithIdentifier(videoIdentifier) { [weak playerViewController] (video: XCDYouTubeVideo?, error: Error?) in
+        XCDYouTubeClient.default().getVideoWithIdentifier(youtubeVideoIdentifier) { [weak playerViewController] (video: XCDYouTubeVideo?, error: Error?) in
 
             if let streamURLs = video?.streamURLs, let streamURL = (streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ??                                               streamURLs[YouTubeVideoQuality.hd720] ??
                  streamURLs[YouTubeVideoQuality.medium360] ??
@@ -92,7 +74,7 @@ class ParlourViewController: UIViewController {
 
     }
 
-    func getVideothumbnail(videoIdentifier: String?) {
+    func getVideothumbnail(youtubeVideoIdentifier: String?) {
 
         XCDYouTubeClient.default().getVideoWithIdentifier("gKwN39UwM9Y") { (video: XCDYouTubeVideo?, error) in
 

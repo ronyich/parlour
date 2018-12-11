@@ -20,7 +20,7 @@ protocol MyChatDelegate: AnyObject {
 
 enum MyErrorMessage: Error {
 
-    case userIDNotFound, displayNameNotFound, snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError, messageIdNotFound
+    case userIDNotFound, displayNameNotFound, snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError, messageIdNotFound, messageSentDateAsStringError, stringAsDateError
 
 }
 
@@ -37,6 +37,8 @@ class MyChatViewController: MessagesViewController {
     let messageReference = Database.database().reference(withPath: "channel/message")
 
     let playerViewController = AVPlayerViewController()
+
+    var timer: Timer?
 
     @IBOutlet weak var videoPlayerView: UIView!
 
@@ -61,7 +63,7 @@ class MyChatViewController: MessagesViewController {
         messagesCollectionView.heightAnchor.constraint(equalToConstant: 437).isActive = true
         messagesCollectionView.widthAnchor.constraint(equalToConstant: 375).isActive = true
 
-        playVideo(videoIdentifier: "rLMHGjoxJdQ")
+        playVideo(videoIdentifier: "gKwN39UwM9Y")
 
         channelReference.queryOrdered(byChild: "sentDate").observe(.value) { (snapshot) in
 
@@ -105,9 +107,24 @@ class MyChatViewController: MessagesViewController {
                                 return
                         }
 
-                        print("content", content)
+                        guard
+                            let sentDateString = messageDictionary["sentDate"] as? String
+                            else { self.delegate?.manager(self, didFailWith: MyErrorMessage.messageSentDateAsStringError)
+                                return
+                        }
 
-                        let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: Date(), kind: .text(content))
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss +zzzz"
+
+                        guard
+                            let sentDate: Date = dateFormatter.date(from: sentDateString)
+                            else { self.delegate?.manager(self, didFailWith: MyErrorMessage.stringAsDateError)
+                                return
+                        }
+
+                        print("dateFromString", sentDate)
+
+                        let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: sentDate, kind: .text(content))
 
                         newMessages.append(message)
 
@@ -119,11 +136,27 @@ class MyChatViewController: MessagesViewController {
 
             DispatchQueue.main.async {
 
-//                let sortMessages = newMessages.sorted { $0.sentDate < $1.sentDate }
+                let sortMessages = newMessages.sorted { $0.sentDate < $1.sentDate }
 
-                self.messages = newMessages
+//                for message in sortMessages {
+//
+//                    switch message.kind {
+//
+//                    case let .text(text):
+//
+//                        print("Text: \(text)")
+//
+//                        print("Date: \(message.sentDate.timeIntervalSince1970)")
+//
+//                    default: print("Not text.")
+//
+//                    }
+//
+//                }
 
-                print("sortMessages", newMessages)
+                self.messages = sortMessages
+
+//                print("sortMessages", sortMessages)
 
                 self.messagesCollectionView.reloadData()
 
@@ -133,6 +166,7 @@ class MyChatViewController: MessagesViewController {
 
         }
 
+//        self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(checkVideoCurrentTime), userInfo: nil, repeats: true)
     }
 
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
@@ -169,8 +203,19 @@ class MyChatViewController: MessagesViewController {
 
     }
 
+    @objc func checkVideoCurrentTime() {
+
+//        let currentTime = playerViewController.player?.addPeriodicTimeObserver(forInterval: CMTime.zero, queue: DispatchQueue.global(), using: { (time) in
+//            print("time.seconds:", time.seconds)
+//        })
+        let currentTime = playerViewController.player?.currentTime().seconds
+        print("currentTime", currentTime)
+
+    }
+
     func playVideo(videoIdentifier: String?) {
 
+        // Test video id: gKwN39UwM9Y, streaming: rLMHGjoxJdQ
         XCDYouTubeClient.default().getVideoWithIdentifier(videoIdentifier) { [weak playerViewController] (video: XCDYouTubeVideo?, error: Error?) in
 
             if let streamURLs = video?.streamURLs, let streamURL = (streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ??                                               streamURLs[YouTubeVideoQuality.hd720] ??
@@ -180,7 +225,6 @@ class MyChatViewController: MessagesViewController {
                 playerViewController?.player = AVPlayer(url: streamURL)
                 playerViewController?.player?.play()
                 playerViewController?.player?.currentTime()
-                playerViewController?.allowsPictureInPicturePlayback = true
 
             } else {
 
@@ -299,6 +343,7 @@ extension MyChatViewController: MessageInputBarDelegate {
         messagesCollectionView.scrollToBottom(animated: true)
 
         print("messages", self.messages)
+
     }
 
 }

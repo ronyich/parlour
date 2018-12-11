@@ -38,16 +38,6 @@ struct Message: MessageType {
                 return nil
         }
 
-//        print("value", value)
-
-//        for (messageID, value) in dictinary {
-//            
-//            print(messageID)
-//            
-//            print(value)
-//            
-//        }
-
         var messageIds: [String] = []
 
         for messageId in snapshotDictionary.keys {
@@ -93,8 +83,6 @@ struct Message: MessageType {
                 return nil
         }
 
-        print("content", content)
-
         self.reference = snapshot.ref
         self.messageId = snapshot.key
 
@@ -128,12 +116,6 @@ extension Message: Comparable {
     static func < (lhs: Message, rhs: Message) -> Bool {
         return lhs.sentDate < rhs.sentDate
     }
-
-}
-
-struct Video {
-
-    var videoID: String
 
 }
 

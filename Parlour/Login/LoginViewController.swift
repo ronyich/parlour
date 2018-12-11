@@ -14,6 +14,10 @@ class LoginViewController: UIViewController {
 
     var user: User?
 
+    static let shared: LoginViewController = LoginViewController()
+
+    weak var delegate: UserManagerDelegate?
+
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
 
@@ -37,6 +41,7 @@ class LoginViewController: UIViewController {
             self.passwordTextField.text = nil
 
         }
+
     }
 
     @IBAction func loginToHomePage(_ sender: UIButton) {
