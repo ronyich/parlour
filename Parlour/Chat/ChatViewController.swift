@@ -16,7 +16,7 @@ protocol ChatDelegate: AnyObject {
     func manager(_ manager: ChatViewController, didFailWith error: Error)
 }
 
-class ChatViewController: UIViewController {
+class ChatViewController: UIViewController, MessageInputBarDelegate {
 
     weak var delegate: ChatDelegate?
 
@@ -68,7 +68,7 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.messagesLayoutDelegate = self
         messagesViewController.messagesCollectionView.messagesDisplayDelegate = self
 
-        //messageInputBar.delegate = self
+        //messagesViewController.messageInputBar.delegate = self
 
         guard
             let uid = Auth.auth().currentUser?.uid
@@ -81,44 +81,6 @@ class ChatViewController: UIViewController {
             else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
                 return
         }
-
-//        channelReference.child("message").queryOrdered(byChild: "sentDate").observeSingleEvent(of: .value) { (snapshot) in
-//
-//            print("snapshot.children", snapshot.children)
-//            print("snapshot.value", snapshot.value)
-//
-//            guard
-//                let dictionary = snapshot.value as? [String: Any]
-//                else { self.delegate?.manager(self, didFailWith: ErrorMessage.snapshotValueAsDictionaryError)
-//                    return
-//            }
-//
-//            print("dictionary", dictionary)
-//
-//            var newMessages: [Message] = []
-//
-//            for (messageID, messageBody) in dictionary {
-//
-//                guard
-//                    let messageDictionary = messageBody as? [String: Any]
-//                    else { self.delegate?.manager(self, didFailWith: ErrorMessage.messageContentAsStringError)
-//                        return
-//                }
-//
-//                guard
-//                    let content = messageDictionary["content"] as? String
-//                    else { self.delegate?.manager(self, didFailWith: ErrorMessage)
-//                        return
-//                }
-//
-//                let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: Date(), kind: .text(content))
-//
-//                newMessages.append(message)
-//            }
-//
-//            self.messages = newMessages
-//
-//        }
 
         self.sender = Sender(id: uid, displayName: displayName)
 
@@ -206,19 +168,19 @@ class ChatViewController: UIViewController {
 
         guard
             let uid = Auth.auth().currentUser?.uid
-            else { print("currentUser uid is nil.")
+            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
                 return
         }
 
         guard
             let displayName = Auth.auth().currentUser?.displayName
-            else { print("displayName is nil.")
+            else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
                 return
         }
 
         guard
             let inputText = inputMessageTextField.text
-            else { print("inputText is nil.")
+            else { self.delegate?.manager(self, didFailWith: MessageError.messageInputTextError)
                 return
         }
 
@@ -226,7 +188,7 @@ class ChatViewController: UIViewController {
 
         guard
             let messageId = messageItemReference.key
-            else { print("messageId is nil.")
+            else { self.delegate?.manager(self, didFailWith: MessageError.messageIdNotFound)
                 return
         }
 
@@ -240,36 +202,7 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.reloadData()
         messagesViewController.messagesCollectionView.scrollToBottom()
 
-        print("messages", self.messages)
     }
-
-//        private func insertNewMessage(_ message: Message) {
-//
-//            guard !messages.contains(message)
-//                else { print("message is nil.")
-//                    return
-//            }
-//
-//            print("in insertNewMessage")
-//            messages.append(message)
-//            messages.sort()
-//
-//            let isLatestMessage = messages.index(of: message) == (messages.count - 1)
-//            let shouldScrollToBottom = messagesCollectionView.isAtBottom && isLatestMessage
-//
-//            messagesCollectionView.reloadData()
-//
-//            if shouldScrollToBottom {
-//
-//                DispatchQueue.main.async {
-//
-//                    self.messagesCollectionView.scrollToBottom(animated: true)
-//
-//                }
-//
-//            }
-//
-//        }
 
 }
 
@@ -298,15 +231,24 @@ extension ChatViewController: MessagesDataSource {
 
 extension ChatViewController: MessagesDisplayDelegate {
 
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+
+        return isFromCurrentSender(message: message) ? .white : .darkText
+
+    }
+
+    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
+
+        return MessageLabel.defaultAttributes
+
+    }
+
+    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+        return [.url, .address, .phoneNumber, .date, .transitInformation]
+    }
+
 }
 
 extension ChatViewController: MessagesLayoutDelegate {
 
-}
-
-extension ChatViewController: MessageInputBarDelegate {
-
-    func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
-        //...editing
-    }
 }

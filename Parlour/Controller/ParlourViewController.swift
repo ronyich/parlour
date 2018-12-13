@@ -24,7 +24,7 @@ class ParlourViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getVideothumbnail(youtubeVideoIdentifier: "gKwN39UwM9Y")
+        getVideothumbnail(videoIdentifier: "gKwN39UwM9Y")
 
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(goToChatView))
@@ -32,15 +32,13 @@ class ParlourViewController: UIViewController {
         videoMainImageView.addGestureRecognizer(tapGestureRecognizer)
         videoMainImageView.isUserInteractionEnabled = true
 
-        performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
-
     }
 
-    func playVideo(youtubeVideoIdentifier: String?) {
+    func playVideo(videoIdentifier: String?) {
 
         //self.present(playerViewController, animated: true, completion: nil)
 
-        XCDYouTubeClient.default().getVideoWithIdentifier(youtubeVideoIdentifier) { [weak playerViewController] (video: XCDYouTubeVideo?, error: Error?) in
+        XCDYouTubeClient.default().getVideoWithIdentifier(videoIdentifier) { [weak playerViewController] (video: XCDYouTubeVideo?, error: Error?) in
 
             if let streamURLs = video?.streamURLs, let streamURL = (streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ??                                               streamURLs[YouTubeVideoQuality.hd720] ??
                  streamURLs[YouTubeVideoQuality.medium360] ??
@@ -74,7 +72,7 @@ class ParlourViewController: UIViewController {
 
     }
 
-    func getVideothumbnail(youtubeVideoIdentifier: String?) {
+    func getVideothumbnail(videoIdentifier: String?) {
 
         XCDYouTubeClient.default().getVideoWithIdentifier("gKwN39UwM9Y") { (video: XCDYouTubeVideo?, error) in
 

@@ -12,8 +12,9 @@ import XCDYouTubeKit
 import AVKit
 
 protocol ChatRoomDelegate: AnyObject {
-    
+
     func manager(_ manager: ChatRoomViewController, didFailWith error: Error)
+
 }
 
 class ChatRoomViewController: UIViewController {
@@ -96,6 +97,9 @@ class ChatRoomViewController: UIViewController {
                 playerViewController?.player?.play()
                 playerViewController?.player?.seek(to: CMTime(seconds: Double(currentTime), preferredTimescale: 1 ))
 
+                //MARK: Must to last add removeObserver: playerViewController?.player?.currentItem?.removeObserver(self, forKeyPath: "duration")
+//                playerViewController?.player?.currentItem?.addObserver(self, forKeyPath: "seconds", options: [], context: nil)
+
             } else {
 
                 self.dismiss(animated: true, completion: nil)
@@ -109,6 +113,14 @@ class ChatRoomViewController: UIViewController {
         playerViewControllerConstraint()
 
     }
+
+    // MARK: editing...
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+//
+//        if keyPath == "seconds" {
+//            print("seconds is change")
+//        }
+//    }
 
     func playerViewControllerConstraint() {
 
@@ -143,9 +155,10 @@ class ChatRoomViewController: UIViewController {
 
         let currentTime: Int = Int(videoCurrentTimeOfSeconds)
 
-        let videoItem = Video(title: "Sample", videoID: "gKwN39UwM9Y", nextVideoID: "rLMHGjoxJdQ", hostID: "hostID", currentTime: currentTime)
+        // MARK: editing...
+        let videoItem = VideoControl(nextVideoID: "hostID: String", currentTime: currentTime, hostID: uid)
 
-        videosReference.child(uid).setValue(videoItem.saveVideoObjectToFirebase())
+        videosReference.child(uid).setValue(videoItem.saveVideoControlObjectToFirebase())
 
     }
 
