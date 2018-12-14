@@ -11,15 +11,25 @@ import Firebase
 
 protocol HomePageDelegate: AnyObject {
 
+    func manager(_ manager: HomePageTableViewController, didFetch video: Video)
+
     func manager(_ manager: HomePageTableViewController, didFailWith error: Error)
 
 }
 
 class HomePageTableViewController: UITableViewController {
 
+//    static let shared = HomePageTableViewController()
+
     weak var delegate: HomePageDelegate?
 
+    let videoManager = VideoManager()
+
+    var video: Video?
+
     var videos: [Video]?
+
+    var tapGestureRecognizer = UITapGestureRecognizer()
 
     let videoListsReference = Database.database().reference().child("videoLists")
 
@@ -41,6 +51,8 @@ class HomePageTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "MainVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "MainVideoTableViewCell")
 
         tableView.register(UINib(nibName: "PopularVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "PopularVideoTableViewCell")
+
+        //videoManager.getVideoList()
 
         videoListsReference.child("list01").observe(.value) { (snapshot) in
 
@@ -156,12 +168,10 @@ class HomePageTableViewController: UITableViewController {
 
             }
 
-            let tapGestureRecognizer = UITapGestureRecognizer()
-
             cell.mainVideoImageView.addGestureRecognizer(tapGestureRecognizer)
             cell.mainVideoImageView.isUserInteractionEnabled = true
 
-            tapGestureRecognizer.addTarget(self, action: #selector(playVideoInTableView))
+            tapGestureRecognizer.addTarget(self, action: #selector(fetchUserTapTableViewImageToPlayVideo))
 
             return cell
 
@@ -209,24 +219,42 @@ class HomePageTableViewController: UITableViewController {
 
     }
 
-    @objc func playVideoInTableView(sender: UITapGestureRecognizer) {
+    @objc func fetchUserTapTableViewImageToPlayVideo() {
 
-        guard
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MainVideoTableViewCell") as? MainVideoTableViewCell
-            else { fatalError(String(describing: self.delegate?.manager(self, didFailWith: TableViewError.cellAsMainVideoTableViewCellError)))
-        }
-
-        //let point = cell.mainVideoImageView.convert(cell.mainVideoImageView.center, to: tableView)
-
-        //let indexPath = tableView.indexPathForRow(at: point)
-        guard let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView))
+        guard let indexPath = tableView.indexPathForRow(at: tapGestureRecognizer.location(in: tableView))
             else { self.delegate?.manager(self, didFailWith: TableViewError.getIndexPathError)
                 return
         }
 
-        print("In playVideoInTableView")
-        //print("point:", point)
-        print("indexPath:", indexPath)
+        guard let videos = videos, videos.count >= 1
+            else { self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
+                return
+        }
+
+        video = videos[indexPath.row]
+
+        print("videos[indexPath.row]", videos[indexPath.row])
+        performSegue(withIdentifier: "Go_To_VideoPlayTableViewController", sender: self)
+
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if segue.identifier == "Go_To_VideoPlayTableViewController" {
+
+            guard
+                let videoPlayTableViewController =  segue.destination as? VideoPlayTableViewController
+                else { self.delegate?.manager(self, didFailWith: TypeAsError.segueAsVideoPlayTableViewControllerError)
+                    return
+            }
+
+            videoPlayTableViewController.video = video
+
+        } else {
+
+            self.delegate?.manager(self, didFailWith: SegueError.segueIdentifierError)
+
+        }
 
     }
 
@@ -306,7 +334,7 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
         }
 
         let tapGestureRecognizer = UITapGestureRecognizer()
-        tapGestureRecognizer.addTarget(self, action: #selector(playVideoInCollectionView))
+        tapGestureRecognizer.addTarget(self, action: #selector(fetchUserTapCollectionViewImageToPlayVideo))
 
         cell.videoImageView.addGestureRecognizer(tapGestureRecognizer)
         cell.videoImageView.isUserInteractionEnabled = true
@@ -315,7 +343,7 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
 
     }
 
-    @objc func playVideoInCollectionView(sender: UITapGestureRecognizer) {
+    @objc func fetchUserTapCollectionViewImageToPlayVideo(sender: UITapGestureRecognizer) {
 
         guard
             let indexPath = popularVideoCollectionView?.indexPathForItem(at: sender.location(in: popularVideoCollectionView))
@@ -323,7 +351,15 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
                 return
         }
 
-        print("indexPath:", indexPath)
+        guard let videos = videos, videos.count >= 1
+            else { self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
+                return
+        }
+
+        video = videos[indexPath.row]
+
+        print("videos[indexPath.row]", videos[indexPath.row])
+        performSegue(withIdentifier: "Go_To_VideoPlayTableViewController", sender: self)
 
     }
 
@@ -346,6 +382,28 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
             alert.addAction(okAction)
 
         }
+
+    }
+
+}
+
+extension HomePageTableViewController: VideoManagerDelegate {
+
+    func manager(_ manager: VideoManager, didFetch videos: [Video]) {
+
+        DispatchQueue.main.async {
+
+            self.videos = videos
+
+            self.tableView.reloadData()
+
+        }
+
+    }
+
+    func manager(_ manager: VideoManager, didFailWith error: Error) {
+
+        print("Fetch videos Error: \(error.localizedDescription)")
 
     }
 

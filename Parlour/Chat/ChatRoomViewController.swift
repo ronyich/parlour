@@ -97,9 +97,6 @@ class ChatRoomViewController: UIViewController {
                 playerViewController?.player?.play()
                 playerViewController?.player?.seek(to: CMTime(seconds: Double(currentTime), preferredTimescale: 1 ))
 
-                //MARK: Must to last add removeObserver: playerViewController?.player?.currentItem?.removeObserver(self, forKeyPath: "duration")
-//                playerViewController?.player?.currentItem?.addObserver(self, forKeyPath: "seconds", options: [], context: nil)
-
             } else {
 
                 self.dismiss(animated: true, completion: nil)

@@ -21,7 +21,10 @@ protocol VideoManagerDelegate: AnyObject {
 class VideoManager {
 
     static let shared: VideoManager = VideoManager()
+
     weak var delegate: VideoManagerDelegate?
+
+    let videoListsReference = Database.database().reference().child("videoLists")
 
     func getVideoObject(videoIdentifier: String) {
 
@@ -82,6 +85,62 @@ class VideoManager {
                 print(error?.localizedDescription)
 
             }
+
+        }
+
+    }
+
+    func getVideoList() {
+
+        videoListsReference.child("list01").observe(.value) { (snapshot) in
+
+            var newVideos: [Video] = []
+
+            for child in snapshot.children {
+
+                guard
+                    let snapshot = child as? DataSnapshot
+                    else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotChildAsDataSnapshotError)
+                        return
+                }
+
+                guard
+                    let listDictionary = snapshot.value as? [String: Any]
+                    else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotValueAsDictionaryError)
+                        return
+                }
+
+                guard
+                    let title = listDictionary["title"] as? String
+                    else { self.delegate?.manager(self, didFailWith: TypeAsError.titleAsStringError)
+                        return
+                }
+
+                guard
+                    let videoID = listDictionary["videoID"] as? String
+                    else { self.delegate?.manager(self, didFailWith: TypeAsError.videoIDAsStringError)
+                        return
+                }
+
+                guard
+                    let thumbnail = listDictionary["thumbnail"] as? String
+                    else { self.delegate?.manager(self, didFailWith: TypeAsError.thumbnailAsStringError)
+                        return
+                }
+
+                guard
+                    let duration = listDictionary["duration"] as? Int
+                    else { self.delegate?.manager(self, didFailWith: TypeAsError.durationAsIntError)
+                        return
+                }
+
+                let video = Video(title: title, videoID: videoID, thumbnail: thumbnail, duration: duration)
+
+                newVideos.append(video)
+
+            }
+
+            self.delegate?.manager(self, didFetch: newVideos)
 
         }
 

@@ -22,7 +22,7 @@ enum MessageError: Error {
 
 enum TypeAsError: Error {
 
-    case snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError, messageSentDateAsStringError, stringAsDateError, currentTimeAsIntError, titleAsStringError, snapshotChildAsDataSnapshotError, videoIDAsStringError, thumbnailAsStringError, durationAsIntError
+    case snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError, messageSentDateAsStringError, stringAsDateError, currentTimeAsIntError, titleAsStringError, snapshotChildAsDataSnapshotError, videoIDAsStringError, thumbnailAsStringError, durationAsIntError, segueAsVideoPlayTableViewControllerError
 
 }
 
@@ -34,7 +34,7 @@ enum VideoError: Error {
 
 enum TableViewError: Error {
 
-    case cellAsMainVideoTableViewCellError,cellAsPopularVideoTableViewCellError, invalidSection, getIndexPathError, cellAsMainVideoTableViewCell
+    case cellAsMainVideoTableViewCellError,cellAsPopularVideoTableViewCellError, invalidSection, getIndexPathError, cellAsVideoPlayTableViewCellError
 
 }
 
@@ -48,4 +48,9 @@ enum DataTaskError: Error {
 
     case urlNotFound, dataNotFound
 
+}
+
+enum SegueError: Error {
+
+    case segueIdentifierError
 }
