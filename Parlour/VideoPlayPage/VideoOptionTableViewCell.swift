@@ -1,5 +1,5 @@
 //
-//  VideoPlayTableViewCell.swift
+//  VideoOptionTableViewCell.swift
 //  Parlour
 //
 //  Created by Ron Yi on 2018/12/14.
@@ -8,10 +8,12 @@
 
 import UIKit
 
-class VideoPlayTableViewCell: UITableViewCell {
+class VideoOptionTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var videoMainView: UIView!
+    @IBOutlet weak var videoTitleLabel: UILabel!
 
+    @IBOutlet weak var liveChatSetting: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -21,5 +23,5 @@ class VideoPlayTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
     }
-
+    
 }

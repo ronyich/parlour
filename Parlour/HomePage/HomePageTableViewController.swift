@@ -11,8 +11,6 @@ import Firebase
 
 protocol HomePageDelegate: AnyObject {
 
-    func manager(_ manager: HomePageTableViewController, didFetch video: Video)
-
     func manager(_ manager: HomePageTableViewController, didFailWith error: Error)
 
 }
@@ -145,28 +143,57 @@ class HomePageTableViewController: UITableViewController {
                 else { fatalError(String(describing: self.delegate?.manager(self, didFailWith: TableViewError.cellAsMainVideoTableViewCellError)))
             }
 
-            if let url = URL(string: videos?[0].thumbnail ?? "") {
+            if let videos = videos {
 
-                if let data = try? Data(contentsOf: url) {
+                if let firstVideo = videos.first {
 
-                    DispatchQueue.main.async {
+                    if let url = URL(string: firstVideo.thumbnail) {
 
-                        cell.mainVideoImageView.image = UIImage(data: data)
-                        cell.mainVideoImageView.contentMode = .scaleAspectFit
+                        //var compeleteData = Data()
+
+                        DispatchQueue.global().async {
+
+                            do {
+
+                                let data = try Data(contentsOf: url)
+
+                                //compeleteData = data
+
+                                DispatchQueue.main.async {
+
+                                    cell.mainVideoImageView.image = UIImage(data: data)
+
+                                    cell.mainVideoImageView.contentMode = .scaleAspectFit
+
+                                }
+
+                            } catch {
+
+                                self.delegate?.manager(self, didFailWith: DataTaskError.dataHandlerError)
+                                print(error.localizedDescription)
+
+                            }
+
+                        }
+
+                    } else {
+
+                        self.delegate?.manager(self, didFailWith: DataTaskError.urlNotFound)
 
                     }
 
                 } else {
 
-                    self.delegate?.manager(self, didFailWith: DataTaskError.dataNotFound)
-
+                    self.delegate?.manager(self, didFailWith: VideoError.videoNotFound)
                 }
 
             } else {
 
-                self.delegate?.manager(self, didFailWith: DataTaskError.urlNotFound)
+                self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
 
             }
+
+            cell.selectionStyle = .none
 
             cell.mainVideoImageView.addGestureRecognizer(tapGestureRecognizer)
             cell.mainVideoImageView.isUserInteractionEnabled = true
@@ -283,7 +310,7 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
 
         if let videos = videos {
 
-            if videos.count > 1 {
+            if videos.count >= 1 {
 
                 if let url = URL(string: videos[indexPath.row].thumbnail) {
 

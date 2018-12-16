@@ -22,19 +22,19 @@ enum MessageError: Error {
 
 enum TypeAsError: Error {
 
-    case snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError, messageSentDateAsStringError, stringAsDateError, currentTimeAsIntError, titleAsStringError, snapshotChildAsDataSnapshotError, videoIDAsStringError, thumbnailAsStringError, durationAsIntError, segueAsVideoPlayTableViewControllerError
+    case snapshotValueAsDictionaryError, messageValueAsDictionaryError, messageContentAsStringError, messageSentDateAsStringError, stringAsDateError, currentTimeAsIntError, titleAsStringError, snapshotChildAsDataSnapshotError, videoIDAsStringError, thumbnailAsStringError, durationAsIntError, segueAsVideoPlayTableViewControllerError, messageDisplayNameAsStringError, messageSenderIDAsStringError
 
 }
 
 enum VideoError: Error {
 
-    case titleError, videoIDError, nextVideoIDError, hotsIDError, currentTimeError, snapshotValueAsDictionaryError, videoURLNotFound, videoTitleNotFound, videoIDNotFound, videoDurationNotFound, videoThumbnailNotFound, videosNotFound, videosCountOutOfRange
+    case titleError, videoIDError, nextVideoIDError, hotsIDError, currentTimeError, snapshotValueAsDictionaryError, videoURLNotFound, videoTitleNotFound, videoIDNotFound, videoDurationNotFound, videoThumbnailNotFound, videosNotFound, videosCountOutOfRange, videoNotFound
 
 }
 
 enum TableViewError: Error {
 
-    case cellAsMainVideoTableViewCellError,cellAsPopularVideoTableViewCellError, invalidSection, getIndexPathError, cellAsVideoPlayTableViewCellError
+    case cellAsMainVideoTableViewCellError,cellAsPopularVideoTableViewCellError, invalidSection, getIndexPathError, cellAsVideoPlayTableViewCellError, cellAsVideoOptionTableViewCellError
 
 }
 
@@ -46,7 +46,7 @@ enum CollectionViewError: Error {
 
 enum DataTaskError: Error {
 
-    case urlNotFound, dataNotFound
+    case urlNotFound, dataNotFound, dataHandlerError
 
 }
 

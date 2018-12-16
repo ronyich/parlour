@@ -1,2 +1,4 @@
 #Custom gitignore
 GoogleService-Info.plist
+Info.plist
+.gitignore

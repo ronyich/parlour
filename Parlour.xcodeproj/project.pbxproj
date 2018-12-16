@@ -34,6 +34,9 @@
 		6854832521C2D89300C6FC0A /* VideoPlayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854832421C2D89300C6FC0A /* VideoPlayTableViewController.swift */; };
 		6854832821C2E20F00C6FC0A /* VideoPlayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854832621C2E20F00C6FC0A /* VideoPlayTableViewCell.swift */; };
 		6854832921C2E20F00C6FC0A /* VideoPlayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6854832721C2E20F00C6FC0A /* VideoPlayTableViewCell.xib */; };
+		6854833321C3B67D00C6FC0A /* VideoOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833121C3B67D00C6FC0A /* VideoOptionTableViewCell.swift */; };
+		6854833421C3B67D00C6FC0A /* VideoOptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */; };
+		6854833621C51EF500C6FC0A /* LiveChatSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */; };
 		68D756D821AD4E15005C0A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D721AD4E15005C0A5B /* AppDelegate.swift */; };
 		68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D921AD4E15005C0A5B /* LoginViewController.swift */; };
 		68D756DD21AD4E15005C0A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D756DB21AD4E15005C0A5B /* Main.storyboard */; };
@@ -73,6 +76,9 @@
 		6854832421C2D89300C6FC0A /* VideoPlayTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayTableViewController.swift; sourceTree = "<group>"; };
 		6854832621C2E20F00C6FC0A /* VideoPlayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayTableViewCell.swift; sourceTree = "<group>"; };
 		6854832721C2E20F00C6FC0A /* VideoPlayTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoPlayTableViewCell.xib; sourceTree = "<group>"; };
+		6854833121C3B67D00C6FC0A /* VideoOptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOptionTableViewCell.swift; sourceTree = "<group>"; };
+		6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoOptionTableViewCell.xib; sourceTree = "<group>"; };
+		6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatSettingTableViewController.swift; sourceTree = "<group>"; };
 		68D756D421AD4E15005C0A5B /* Parlour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parlour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D756D721AD4E15005C0A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D756D921AD4E15005C0A5B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +183,9 @@
 				6854832421C2D89300C6FC0A /* VideoPlayTableViewController.swift */,
 				6854832621C2E20F00C6FC0A /* VideoPlayTableViewCell.swift */,
 				6854832721C2E20F00C6FC0A /* VideoPlayTableViewCell.xib */,
+				6854833121C3B67D00C6FC0A /* VideoOptionTableViewCell.swift */,
+				6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */,
+				6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */,
 			);
 			path = VideoPlayPage;
 			sourceTree = "<group>";
@@ -308,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6854833421C3B67D00C6FC0A /* VideoOptionTableViewCell.xib in Resources */,
 				6828C7BC21C0C61D00BE14CC /* MainVideoTableViewCell.xib in Resources */,
 				6854832921C2E20F00C6FC0A /* VideoPlayTableViewCell.xib in Resources */,
 				6828C78F21AFE53000BE14CC /* GoogleService-Info.plist in Resources */,
@@ -396,11 +406,13 @@
 				6828C7C721C15A3100BE14CC /* PopularVideoCollectionViewCell.swift in Sources */,
 				6828C7B321BF975500BE14CC /* UserManager.swift in Sources */,
 				68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */,
+				6854833621C51EF500C6FC0A /* LiveChatSettingTableViewController.swift in Sources */,
 				6828C7B721C0C51100BE14CC /* HomePageTableViewController.swift in Sources */,
 				6828C7AA21B84BE500BE14CC /* Channel.swift in Sources */,
 				6854832521C2D89300C6FC0A /* VideoPlayTableViewController.swift in Sources */,
 				6828C7C321C11C6500BE14CC /* PopularVideoTableViewCell.swift in Sources */,
 				6828C79B21B4E5CC00BE14CC /* VideoMainCollectionViewCell.swift in Sources */,
+				6854833321C3B67D00C6FC0A /* VideoOptionTableViewCell.swift in Sources */,
 				6828C7C021C0F7A800BE14CC /* VideoControl.swift in Sources */,
 				6854832821C2E20F00C6FC0A /* VideoPlayTableViewCell.swift in Sources */,
 				6828C78821AFC75E00BE14CC /* Message.swift in Sources */,

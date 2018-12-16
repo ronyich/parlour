@@ -16,7 +16,7 @@ protocol ChatDelegate: AnyObject {
     func manager(_ manager: ChatViewController, didFailWith error: Error)
 }
 
-class ChatViewController: UIViewController, MessageInputBarDelegate {
+class ChatViewController: UIViewController {
 
     weak var delegate: ChatDelegate?
 
@@ -30,7 +30,7 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
 
     var messageIds: [String] = []
 
-    var sender = Sender(id: "", displayName: "")
+    var sender: Sender?
 
     var user: User?
 
@@ -46,6 +46,8 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
 
     let channelReferenceAutoIdKey = Database.database().reference(withPath: "channel").childByAutoId().key
 
+    let outgoingAvatarOverlap: CGFloat = 17.5
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,7 +60,7 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
         // ????????
         //contentView.addSubview(messagesViewController.messagesCollectionView)
 
-        messagesCollectionViewInMessagesViewControllerConstraint()
+        messagesCollectionViewInMessagesViewControllerConfigure()
 
         messagesViewController.didMove(toParent: self)
 
@@ -69,20 +71,6 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
         messagesViewController.messagesCollectionView.messagesDisplayDelegate = self
 
         //messagesViewController.messageInputBar.delegate = self
-
-        guard
-            let uid = Auth.auth().currentUser?.uid
-            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
-                return
-        }
-
-        guard
-            let displayName = Auth.auth().currentUser?.displayName
-            else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
-                return
-        }
-
-        self.sender = Sender(id: uid, displayName: displayName)
 
         channelReference.queryOrdered(byChild: "sentDate").observe(.value) { (snapshot) in
 
@@ -118,6 +106,17 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
                                 return
                         }
 
+                        guard
+                            let uid = messageDictionary["senderID"] as? String
+                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageSenderIDAsStringError)
+                                return
+                        }
+                        guard
+                            let displayName = messageDictionary["displayName"] as? String
+                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageDisplayNameAsStringError)
+                                return
+                        }
+
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss +zzzz"
 
@@ -126,6 +125,8 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
                             else { self.delegate?.manager(self, didFailWith: TypeAsError.stringAsDateError)
                                 return
                         }
+
+                        self.sender = Sender(id: uid, displayName: displayName)
 
                         let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: sentDate, kind: .text(content))
 
@@ -152,7 +153,7 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
 
     }
 
-    func messagesCollectionViewInMessagesViewControllerConstraint() {
+    func messagesCollectionViewInMessagesViewControllerConfigure() {
 
         messagesViewController.messagesCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
 
@@ -162,6 +163,8 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
 
         messagesViewController.messagesCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapMessagesCollectionViewToEndEditing))
+        messagesViewController.messagesCollectionView.addGestureRecognizer(tapGesture)
     }
 
     @IBAction func addNewMessageDidTouch(_ sender: UIButton) {
@@ -204,6 +207,12 @@ class ChatViewController: UIViewController, MessageInputBarDelegate {
 
     }
 
+    @objc func tapMessagesCollectionViewToEndEditing() {
+
+        inputMessageTextField.endEditing(true)
+
+    }
+
 }
 
 // MARK: - MessagesDataSource
@@ -211,7 +220,12 @@ extension ChatViewController: MessagesDataSource {
 
     func currentSender() -> Sender {
 
-        return sender
+        guard
+            let currentSender = sender
+            else { fatalError("currentSender is nil.")
+        }
+
+        return currentSender
 
     }
 
@@ -227,28 +241,37 @@ extension ChatViewController: MessagesDataSource {
 
     }
 
+    func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+
+        let displayName = self.messages[indexPath.section].sender.displayName
+
+        return NSAttributedString(string: displayName, attributes: [.font: UIFont.systemFont(ofSize: 12)])
+
+    }
+
+    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+
+        return 12
+
+    }
+
 }
 
 extension ChatViewController: MessagesDisplayDelegate {
 
-    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
 
-        return isFromCurrentSender(message: message) ? .white : .darkText
-
-    }
-
-    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
-
-        return MessageLabel.defaultAttributes
-
-    }
-
-    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
-        return [.url, .address, .phoneNumber, .date, .transitInformation]
+        avatarView.backgroundColor = .yellow
     }
 
 }
 
 extension ChatViewController: MessagesLayoutDelegate {
+
+    func heightForLocation(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+
+        return 0
+
+    }
 
 }
