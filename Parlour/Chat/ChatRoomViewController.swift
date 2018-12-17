@@ -38,6 +38,8 @@ class ChatRoomViewController: UIViewController {
 
     var videos: [Video] = []
 
+    var youtubeID: String?
+
     let hostID = "6uifs7BtpjfB8T4KhqW2Lc98whF2"
 
     let videosReference = Database.database().reference(withPath: "videos")
@@ -70,14 +72,14 @@ class ChatRoomViewController: UIViewController {
             if uid == self.hostID {
 
                 // Test video id: gKwN39UwM9Y, streaming: rLMHGjoxJdQ
-                self.playVideo(youtubeVideoIdentifier: "gKwN39UwM9Y", currentTime: currentTime)
+                self.playVideo(youtubeVideoIdentifier: self.youtubeID, currentTime: currentTime)
 
                 // Every 5 seconds upload video currentTime to Firebase database.
                 self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.startStreamingVideo), userInfo: nil, repeats: true)
 
             } else {
 
-                self.playVideo(youtubeVideoIdentifier: "gKwN39UwM9Y", currentTime: currentTime)
+                self.playVideo(youtubeVideoIdentifier: self.youtubeID, currentTime: currentTime)
 
             }
 
@@ -96,6 +98,7 @@ class ChatRoomViewController: UIViewController {
                 playerViewController?.player = AVPlayer(url: streamURL)
                 playerViewController?.player?.play()
                 playerViewController?.player?.seek(to: CMTime(seconds: Double(currentTime), preferredTimescale: 1 ))
+                playerViewController?.player?.status
 
             } else {
 

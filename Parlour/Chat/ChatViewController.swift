@@ -111,6 +111,7 @@ class ChatViewController: UIViewController {
                             else { self.delegate?.manager(self, didFailWith: TypeAsError.messageSenderIDAsStringError)
                                 return
                         }
+
                         guard
                             let displayName = messageDictionary["displayName"] as? String
                             else { self.delegate?.manager(self, didFailWith: TypeAsError.messageDisplayNameAsStringError)

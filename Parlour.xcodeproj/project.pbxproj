@@ -37,6 +37,7 @@
 		6854833321C3B67D00C6FC0A /* VideoOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833121C3B67D00C6FC0A /* VideoOptionTableViewCell.swift */; };
 		6854833421C3B67D00C6FC0A /* VideoOptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */; };
 		6854833621C51EF500C6FC0A /* LiveChatSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */; };
+		6854833821C75ED700C6FC0A /* LiveChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833721C75ED700C6FC0A /* LiveChatSettingViewController.swift */; };
 		68D756D821AD4E15005C0A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D721AD4E15005C0A5B /* AppDelegate.swift */; };
 		68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D921AD4E15005C0A5B /* LoginViewController.swift */; };
 		68D756DD21AD4E15005C0A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D756DB21AD4E15005C0A5B /* Main.storyboard */; };
@@ -79,6 +80,7 @@
 		6854833121C3B67D00C6FC0A /* VideoOptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOptionTableViewCell.swift; sourceTree = "<group>"; };
 		6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoOptionTableViewCell.xib; sourceTree = "<group>"; };
 		6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatSettingTableViewController.swift; sourceTree = "<group>"; };
+		6854833721C75ED700C6FC0A /* LiveChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatSettingViewController.swift; sourceTree = "<group>"; };
 		68D756D421AD4E15005C0A5B /* Parlour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parlour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D756D721AD4E15005C0A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D756D921AD4E15005C0A5B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -126,14 +128,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		6828C78D21AFD67C00BE14CC /* Controller */ = {
+		6828C78D21AFD67C00BE14CC /* Parlour Page */ = {
 			isa = PBXGroup;
 			children = (
 				6828C79121B1159600BE14CC /* ParlourViewController.swift */,
 				6828C79921B4E5CB00BE14CC /* VideoMainCollectionViewCell.swift */,
 				6828C79A21B4E5CB00BE14CC /* VideoMainCollectionViewCell.xib */,
+				6854833721C75ED700C6FC0A /* LiveChatSettingViewController.swift */,
 			);
-			path = Controller;
+			path = "Parlour Page";
 			sourceTree = "<group>";
 		};
 		6828C79F21B541F900BE14CC /* Chat */ = {
@@ -163,7 +166,7 @@
 			path = Test;
 			sourceTree = "<group>";
 		};
-		6828C7B821C0C5AC00BE14CC /* HomePage */ = {
+		6828C7B821C0C5AC00BE14CC /* Home Page */ = {
 			isa = PBXGroup;
 			children = (
 				6828C7B621C0C51100BE14CC /* HomePageTableViewController.swift */,
@@ -174,10 +177,10 @@
 				6828C7C521C15A3100BE14CC /* PopularVideoCollectionViewCell.swift */,
 				6828C7C621C15A3100BE14CC /* PopularVideoCollectionViewCell.xib */,
 			);
-			path = HomePage;
+			path = "Home Page";
 			sourceTree = "<group>";
 		};
-		6854832321C2D84E00C6FC0A /* VideoPlayPage */ = {
+		6854832321C2D84E00C6FC0A /* VideoPlay Page */ = {
 			isa = PBXGroup;
 			children = (
 				6854832421C2D89300C6FC0A /* VideoPlayTableViewController.swift */,
@@ -187,7 +190,7 @@
 				6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */,
 				6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */,
 			);
-			path = VideoPlayPage;
+			path = "VideoPlay Page";
 			sourceTree = "<group>";
 		};
 		68D756CB21AD4E15005C0A5B = {
@@ -214,10 +217,10 @@
 				68D756D721AD4E15005C0A5B /* AppDelegate.swift */,
 				6828C78A21AFC7C400BE14CC /* Model */,
 				68D756EB21AD5687005C0A5B /* Login */,
-				6828C78D21AFD67C00BE14CC /* Controller */,
-				6828C7B821C0C5AC00BE14CC /* HomePage */,
-				6854832321C2D84E00C6FC0A /* VideoPlayPage */,
+				6828C7B821C0C5AC00BE14CC /* Home Page */,
+				6854832321C2D84E00C6FC0A /* VideoPlay Page */,
 				6828C78921AFC79500BE14CC /* View */,
+				6828C78D21AFD67C00BE14CC /* Parlour Page */,
 				6828C79F21B541F900BE14CC /* Chat */,
 				6828C7AD21BE432C00BE14CC /* Test */,
 				6828C7A221B64DF800BE14CC /* Extentions */,
@@ -414,6 +417,7 @@
 				6828C79B21B4E5CC00BE14CC /* VideoMainCollectionViewCell.swift in Sources */,
 				6854833321C3B67D00C6FC0A /* VideoOptionTableViewCell.swift in Sources */,
 				6828C7C021C0F7A800BE14CC /* VideoControl.swift in Sources */,
+				6854833821C75ED700C6FC0A /* LiveChatSettingViewController.swift in Sources */,
 				6854832821C2E20F00C6FC0A /* VideoPlayTableViewCell.swift in Sources */,
 				6828C78821AFC75E00BE14CC /* Message.swift in Sources */,
 				6828C7B121BF942E00BE14CC /* ErrorHandle.swift in Sources */,

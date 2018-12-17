@@ -26,6 +26,8 @@ class ParlourViewController: UIViewController {
 
         getVideothumbnail(videoIdentifier: "gKwN39UwM9Y")
 
+        playVideo(videoIdentifier: "gKwN39UwM9Y")
+
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(goToChatView))
 
@@ -45,12 +47,16 @@ class ParlourViewController: UIViewController {
                  streamURLs[YouTubeVideoQuality.small240]) {
 
                 playerViewController?.player = AVPlayer(url: streamURL)
-                //playerViewController?.player?.play()
+                playerViewController?.player?.play()
                 playerViewController?.player?.currentTime()
-                playerViewController?.allowsPictureInPicturePlayback = true
 
                 //playerViewController?.player = AVQueuePlayer(playerItem: AVPlayerItem(asset: AVAsset(url: streamURL), automaticallyLoadedAssetKeys: ["Q0AULj4UltI","gKwN39UwM9Y"]))
 
+                print("video control:",
+                      playerViewController?.player?.play(),
+                      playerViewController?.player?.status,
+                      playerViewController?.player?.pause())
+                
                 print("video property",
                       video?.title,
                       video?.duration,
@@ -76,78 +82,79 @@ class ParlourViewController: UIViewController {
 
         XCDYouTubeClient.default().getVideoWithIdentifier("gKwN39UwM9Y") { (video: XCDYouTubeVideo?, error) in
 
-            if let streamURLs = video?.streamURLs, let streamURL = (streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ??                                               streamURLs[YouTubeVideoQuality.hd720] ??
-                streamURLs[YouTubeVideoQuality.medium360] ??
-                streamURLs[YouTubeVideoQuality.small240]) {
+            guard
+                let url = video?.thumbnailURL
+                else { print("url is nil.")
+                    return
+            }
+	
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
 
                 guard
-                    let url = video?.thumbnailURL
-                    else { print("url is nil.")
+                    let data = data
+                    else { print("data is nil.")
                         return
                 }
 
-                URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
+                DispatchQueue.main.async {
 
-                    guard
-                        let data = data
-                        else { print("data is nil.")
-                            return
-                    }
+                    self.videoMainImageView.image = UIImage(data: data)
+                    self.videoMainImageView.contentMode = .scaleAspectFit
 
-                    DispatchQueue.main.async {
+                }
 
-                        self.videoMainImageView.image = UIImage(data: data)
-                        self.videoMainImageView.contentMode = .scaleAspectFit
+            }).resume()
 
-                    }
-
-                }).resume()
-
-            } else {
-
-                print(error?.localizedDescription)
-
-            }
         }
 
     }
 
     @objc func goToChatView() {
 
-//        if let chatRoomViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChatRoomViewController") as? ChatRoomViewController {
-//
-//            guard
-//                let appDelegate = UIApplication.shared.delegate
-//                else { fatalError("appDelegate error.") }
-//
-//            appDelegate.window??.rootViewController = chatRoomViewController
-//
-//            print("image tapped.")
-//
-//        }
-
         performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
+
     }
 
-    @IBAction func logOutToLoginView(_ sender: UIBarButtonItem) {
+    @IBAction func inputYoutubeURLToSettingPage(_ sender: UIBarButtonItem) {
 
-        do {
+        let alert = UIAlertController(title: "Paste Youtube URL", message: "Example: https://youtu.be/nSDgHBxUbVQ", preferredStyle: .alert)
 
-            try Auth.auth().signOut()
-            self.dismiss(animated: true)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
 
-        } catch {
+            guard
+                let textFieldInputString = alert.textFields?[0].text
+                else { print("textFields[0] is nil.")
+                    return
+            }
 
-            let alert = UIAlertController(title: "Logout Error.",
-                                          message: error.localizedDescription,
-                                          preferredStyle: .alert)
+            let youtubeURL = textFieldInputString
 
-            let okAction = UIAlertAction(title: "OK",
-                                         style: .cancel)
+            let youtubeID = String(youtubeURL.suffix(11))
 
-            alert.addAction(okAction)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+            guard
+                let liveChatSettingViewController = storyboard.instantiateViewController(withIdentifier: "LiveChatSettingViewController") as? LiveChatSettingViewController
+                else { print("As LiveChatSettingViewController error")
+                    return
+            }
+
+            liveChatSettingViewController.youtubeID = youtubeID
+
+            self.present(liveChatSettingViewController, animated: true, completion: nil)
 
         }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true, completion: nil)
 
     }
 
@@ -170,37 +177,28 @@ extension ParlourViewController: UICollectionViewDelegate, UICollectionViewDataS
 
         XCDYouTubeClient.default().getVideoWithIdentifier("gKwN39UwM9Y") { (video: XCDYouTubeVideo?, error) in
 
-            if let streamURLs = video?.streamURLs, let streamURL = (streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ??                                               streamURLs[YouTubeVideoQuality.hd720] ??
-                streamURLs[YouTubeVideoQuality.medium360] ??
-                streamURLs[YouTubeVideoQuality.small240]) {
+            guard
+                let url = video?.thumbnailURL
+                else { print("url is nil.")
+                    return
+            }
+
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
 
                 guard
-                    let url = video?.thumbnailURL
-                    else { print("url is nil.")
+                    let data = data
+                    else { print("data is nil.")
                         return
                 }
 
-                URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
+                DispatchQueue.main.async {
+                    print("imageData", data)
+                    cell.videoMainImageView.image = UIImage(data: data)
+                    //videoMainImageView is nil
+                }
 
-                    guard
-                        let data = data
-                        else { print("data is nil.")
-                            return
-                    }
+            }).resume()
 
-                    DispatchQueue.main.async {
-                        print("imageData", data)
-                        cell.videoMainImageView.image = UIImage(data: data)
-                        //videoMainImageView is nil
-                    }
-
-                }).resume()
-
-            } else {
-
-                print(error?.localizedDescription)
-
-            }
         }
 
         return cell
