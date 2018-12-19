@@ -29,6 +29,8 @@ class ChatRoomViewController: UIViewController {
 
     let playerViewController = AVPlayerViewController()
 
+    let userDefault = UserDefaults.standard
+
     private var messages: [Message] = []
     private var user = User(uid: "", email: "")
 
@@ -38,50 +40,94 @@ class ChatRoomViewController: UIViewController {
 
     var videos: [Video] = []
 
+    var channel: Channel?
+
     var youtubeID: String?
 
-    let hostID = "6uifs7BtpjfB8T4KhqW2Lc98whF2"
+    var hostID: String?
+
+    var chatRoomTitle: String?
+
+    var chatRoomType: String?
+
+    var chatRoomPassword = ""
 
     let videosReference = Database.database().reference(withPath: "videos")
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tabBarController?.tabBar.isHidden = true
+
         guard
-            let uid = Auth.auth().currentUser?.uid
-            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
+            let channel = channel
+            else { print("channel is nil.")
                 return
         }
 
-        self.tabBarController?.tabBar.isHidden = true
+        // Every 5 seconds upload video currentTime to Firebase database.
+        //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.startStreamingVideo), userInfo: nil, repeats: true)
+        // Test video id: gKwN39UwM9Y, streaming: rLMHGjoxJdQ
 
-        videosReference.child(hostID).queryOrdered(byChild: "currentTime").observeSingleEvent(of: .value) { (snapshot) in
+        videosReference.child(channel.channelID).observe(.value) { (snapshot) in
 
-            guard let videoDictionary = snapshot.value as? [String: Any]
-                else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotValueAsDictionaryError)
+            guard
+                let videoDictionary = snapshot.value as? [String: Any]
+                else { print(TypeAsError.snapshotValueAsDictionaryError)
                     return
             }
 
-            guard let currentTime = videoDictionary["currentTime"] as? Int
-                else { self.delegate?.manager(self, didFailWith: TypeAsError.currentTimeAsIntError)
+            guard
+                let currentTime = videoDictionary["currentTime"] as? Int
+                else { print(TypeAsError.currentTimeAsIntError)
                     return
             }
 
-            print("currentTime", currentTime)
+            guard
+                let hostID = videoDictionary["hostID"] as? String
+                else { print(VideoError.hotsIDError)
+                    return
+            }
 
-            if uid == self.hostID {
+            guard
+                let uid = self.userDefault.string(forKey: "userID")
+                else { print(UserError.userIDNotFound)
+                    return
+            }
 
-                // Test video id: gKwN39UwM9Y, streaming: rLMHGjoxJdQ
-                self.playVideo(youtubeVideoIdentifier: self.youtubeID, currentTime: currentTime)
+            if hostID == uid {
 
-                // Every 5 seconds upload video currentTime to Firebase database.
-                self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.startStreamingVideo), userInfo: nil, repeats: true)
+                self.playVideo(youtubeVideoIdentifier: channel.youtubeID, currentTime: currentTime)
+
+                print("hostID == uid")
 
             } else {
 
-                self.playVideo(youtubeVideoIdentifier: self.youtubeID, currentTime: currentTime)
+                self.playVideo(youtubeVideoIdentifier: channel.youtubeID, currentTime: currentTime)
+
+                print("hostID != uid")
 
             }
+
+        }
+
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if segue.identifier == "Go_To_ChatViewController" {
+
+            guard
+                let chatViewController = segue.destination as? ChatViewController
+                else { print("segue as ChatViewController error")
+                    return
+            }
+
+            chatViewController.channel = channel
+
+        } else {
+
+            print("segue id error.")
 
         }
 
@@ -98,11 +144,10 @@ class ChatRoomViewController: UIViewController {
                 playerViewController?.player = AVPlayer(url: streamURL)
                 playerViewController?.player?.play()
                 playerViewController?.player?.seek(to: CMTime(seconds: Double(currentTime), preferredTimescale: 1 ))
-                playerViewController?.player?.status
 
             } else {
 
-                self.dismiss(animated: true, completion: nil)
+                //self.dismiss(animated: true, completion: nil)
 
                 print("streamURLs is nil:\(String(describing: error?.localizedDescription))")
 
@@ -113,14 +158,6 @@ class ChatRoomViewController: UIViewController {
         playerViewControllerConstraint()
 
     }
-
-    // MARK: editing...
-//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-//
-//        if keyPath == "seconds" {
-//            print("seconds is change")
-//        }
-//    }
 
     func playerViewControllerConstraint() {
 
@@ -141,24 +178,43 @@ class ChatRoomViewController: UIViewController {
 
     @objc func startStreamingVideo() {
 
-        guard
-            let uid = Auth.auth().currentUser?.uid
-            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
-                return
-        }
-
-        guard
-            let videoCurrentTimeOfSeconds = playerViewController.player?.currentTime().seconds
-            else { self.delegate?.manager(self, didFailWith: VideoError.currentTimeError)
-                return
-        }
-
-        let currentTime: Int = Int(videoCurrentTimeOfSeconds)
-
-        // MARK: editing...
-        let videoItem = VideoControl(nextVideoID: "hostID: String", currentTime: currentTime, hostID: uid)
-
-        videosReference.child(uid).setValue(videoItem.saveVideoControlObjectToFirebase())
+//        guard
+//            let uid = Auth.auth().currentUser?.uid
+//            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
+//                return
+//        }
+//
+//        guard
+//            let hostID = self.hostID
+//            else { print("host id is nil.")
+//                return
+//        }
+//
+//        guard let youtubeID = self.youtubeID
+//            else { print("YoutubeID is nil.")
+//                return
+//        }
+//
+//        guard
+//            let title = chatRoomTitle
+//            else { print("title is nil.")
+//                return
+//        }
+//
+//        guard
+//            let type = chatRoomType
+//            else { print("type is nil.")
+//                return
+//        }
+//
+//        let videoCurrentTimeOfSeconds = playerViewController.player?.currentTime().seconds ?? 0
+//
+//        let currentTime: Int = Int(videoCurrentTimeOfSeconds)
+//
+//        // MARK: editing...
+//        let videoItem = VideoControl(videoID: youtubeID, nextVideoID: "nextVideoID", title: title, type: type, password: chatRoomPassword, isLive: "YES", currentTime: currentTime, hostID: uid)
+//
+//        videosReference.child(hostID).setValue(videoItem.saveVideoControlObjectToFirebase())
 
     }
 

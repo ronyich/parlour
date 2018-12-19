@@ -86,7 +86,7 @@ class VideoPlayTableViewController: UITableViewController {
 
             if let video = video {
 
-                playVideo(youtubeVideoIdentifier: video.videoID)
+                playVideo(youtubeVideoIdentifier: video.youtubeID)
 
             } else {
 

@@ -14,6 +14,8 @@ class LoginViewController: UIViewController {
 
     var user: User?
 
+    var userDefault = UserDefaults.standard
+
     static let shared: LoginViewController = LoginViewController()
 
     weak var delegate: UserManagerDelegate?
@@ -39,6 +41,15 @@ class LoginViewController: UIViewController {
 
             self.emailTextField.text = nil
             self.passwordTextField.text = nil
+
+            guard
+                let userID = self.user?.uid
+                else { print("userID is nil in Login.")
+                    return
+            }
+
+            self.userDefault.set(userID, forKey: "userID")
+            self.userDefault.synchronize()
 
         }
 

@@ -346,7 +346,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="biG-2g-WQH">
                                 <rect key="frame" x="0.0" y="274" width="375" height="393"/>
                                 <connections>
-                                    <segue destination="6Gh-4s-eYi" kind="embed" id="2Ze-zE-coD"/>
+                                    <segue destination="6Gh-4s-eYi" kind="embed" identifier="Go_To_ChatViewController" id="2Ze-zE-coD"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="csx-nr-fEG">
@@ -752,7 +752,7 @@
         <!--Chat View Controller-->
         <scene sceneID="a3z-zw-BVg">
             <objects>
-                <viewController id="6Gh-4s-eYi" customClass="ChatViewController" customModule="Parlour" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" id="6Gh-4s-eYi" customClass="ChatViewController" customModule="Parlour" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Pow-fT-UhY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="393"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -895,7 +895,7 @@
                                             <color key="titleColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="startButton:" destination="u6s-NB-DpG" eventType="touchUpInside" id="PRV-Kb-NS2"/>
+                                            <action selector="startLiveChat:" destination="u6s-NB-DpG" eventType="touchUpInside" id="0bv-de-UIz"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LN5-Dg-jnb">

@@ -70,7 +70,7 @@ class VideoManager {
                             return
                     }
 
-                    let videoItem = Video(title: title, videoID: videoID, thumbnail: url.absoluteString, duration: durationSeconds)
+//                    let videoItem = Video(title: title, youtubeID: videoID, thumbnail: url.absoluteString, duration: durationSeconds)
 
                     let videoListItemReference = Database.database().reference(withPath: "videoLists")
 
@@ -134,9 +134,9 @@ class VideoManager {
                         return
                 }
 
-                let video = Video(title: title, videoID: videoID, thumbnail: thumbnail, duration: duration)
-
-                newVideos.append(video)
+//                let video = Video(title: title, youtubeID: videoID, thumbnail: thumbnail, duration: duration)
+//
+//                newVideos.append(video)
 
             }
 

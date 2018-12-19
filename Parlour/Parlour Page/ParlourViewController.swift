@@ -19,20 +19,99 @@ class ParlourViewController: UIViewController {
     @IBOutlet weak var videoMainImageView: UIImageView!
 
     let playerViewController = AVPlayerViewController()
-    let video = XCDYouTubeVideo()
+
+    var channels: [Channel] = []
+
+    let videosReference = Database.database().reference(withPath: "videos")
+
+    let channelsReference = Database.database().reference(withPath: "channels")
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getVideothumbnail(videoIdentifier: "gKwN39UwM9Y")
-
-        playVideo(videoIdentifier: "gKwN39UwM9Y")
+        //playVideo(videoIdentifier: "gKwN39UwM9Y")
 
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(goToChatView))
 
         videoMainImageView.addGestureRecognizer(tapGestureRecognizer)
         videoMainImageView.isUserInteractionEnabled = true
+
+        channelsReference.observe(.value) { (snapshot) in
+
+            var newChannels: [Channel] = []
+
+            for child in snapshot.children {
+
+                if let snapshot = child as? DataSnapshot {
+
+                    guard
+                        let dictionary = snapshot.value as? [String: Any]
+                        else { print("dictionary is nil.")
+                            return
+                    }
+
+                    print("dictionary", dictionary)
+
+                        guard
+                            let youtubeID = dictionary["youtubeID"] as? String
+                            else { print("youtubeID ID is nil.")
+                                return
+                        }
+
+                        guard
+                            let title = dictionary["title"] as? String
+                            else { print("title is nil.")
+                                return
+                        }
+
+                        guard
+                            let type = dictionary["type"] as? String
+                            else { print("type is nil.")
+                                return
+                        }
+
+                        guard
+                            let password = dictionary["password"] as? String
+                            else { print("password is nil.")
+                                return
+                        }
+
+                        guard
+                            let isLive = dictionary["isLive"] as? String
+                            else { print("isLive is nil.")
+                                return
+                        }
+
+                        guard
+                            let channelID = dictionary["channelID"] as? String
+                            else { print("channelID is nil.")
+                                return
+                        }
+
+                        guard
+                            let hostID = dictionary["hostID"] as? String
+                            else { print("hostID is nil.")
+                                return
+                        }
+
+                    let channel = Channel(hostID: hostID, title: title, type: type, isLive: isLive, password: password, youtubeID: youtubeID, channelID: channelID)
+
+                        newChannels.append(channel)
+
+                }
+
+            }
+
+            DispatchQueue.main.async {
+
+                self.channels = newChannels
+
+                self.getVideothumbnail(videoIdentifier: self.channels.first?.youtubeID)
+
+            }
+
+        }
 
     }
 
@@ -80,14 +159,14 @@ class ParlourViewController: UIViewController {
 
     func getVideothumbnail(videoIdentifier: String?) {
 
-        XCDYouTubeClient.default().getVideoWithIdentifier("gKwN39UwM9Y") { (video: XCDYouTubeVideo?, error) in
+        XCDYouTubeClient.default().getVideoWithIdentifier(videoIdentifier) { (video: XCDYouTubeVideo?, error) in
 
             guard
                 let url = video?.thumbnailURL
                 else { print("url is nil.")
                     return
             }
-	
+
             URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
 
                 guard
@@ -112,6 +191,26 @@ class ParlourViewController: UIViewController {
     @objc func goToChatView() {
 
         performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
+
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if segue.identifier == "Go_To_ChatRoomViewController" {
+
+            guard
+                let chatRoomViewController = segue.destination as? ChatRoomViewController
+                else { print("segue as ChatRoomViewController error.")
+                    return
+            }
+
+            chatRoomViewController.channel = channels.first
+
+        } else {
+
+            print("segue id error.")
+
+        }
 
     }
 
@@ -148,7 +247,9 @@ class ParlourViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 
         alert.addTextField { (textField) in
+
             textField.text = ""
+
         }
 
         alert.addAction(okAction)

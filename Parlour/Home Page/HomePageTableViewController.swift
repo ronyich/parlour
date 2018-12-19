@@ -77,7 +77,7 @@ class HomePageTableViewController: UITableViewController {
                 }
 
                 guard
-                    let videoID = listDictionary["videoID"] as? String
+                    let youtubeID = listDictionary["videoID"] as? String
                     else { self.delegate?.manager(self, didFailWith: TypeAsError.videoIDAsStringError)
                         return
                 }
@@ -94,7 +94,13 @@ class HomePageTableViewController: UITableViewController {
                         return
                 }
 
-                let video = Video(title: title, videoID: videoID, thumbnail: thumbnail, duration: duration)
+                guard
+                    let hostID = listDictionary["hostID"] as? String
+                    else { print("hostID is nil")
+                        return
+                }
+
+                let video = Video(title: title, youtubeID: youtubeID, thumbnail: thumbnail, currentTime: 0, duration: duration, hostID: hostID)
 
                 newVideos.append(video)
 

@@ -20,11 +20,7 @@ class ChatViewController: UIViewController {
 
     weak var delegate: ChatDelegate?
 
-//    @IBOutlet weak var messagesCollectionView: MessagesCollectionView!
-
     let messagesViewController = MessagesViewController()
-
-    var messageInputBar = MessageInputBar()
 
     var messages: [Message] = []
 
@@ -33,6 +29,10 @@ class ChatViewController: UIViewController {
     var sender: Sender?
 
     var user: User?
+
+    var channel: Channel?
+
+    let userDefault = UserDefaults.standard
 
     @IBOutlet weak var inputMessageTextField: UITextField!
 
@@ -46,7 +46,16 @@ class ChatViewController: UIViewController {
 
     let channelReferenceAutoIdKey = Database.database().reference(withPath: "channel").childByAutoId().key
 
+    let chatsReference = Database.database().reference(withPath: "chats")
+
     let outgoingAvatarOverlap: CGFloat = 17.5
+
+//    override var inputAccessoryView: UIView? {
+//        return messagesViewController.inputAccessoryView
+//    }
+//    override var canBecomeFirstResponder: Bool {
+//        return messagesViewController.canBecomeFirstResponder
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,9 +79,28 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.messagesLayoutDelegate = self
         messagesViewController.messagesCollectionView.messagesDisplayDelegate = self
 
-        //messagesViewController.messageInputBar.delegate = self
+        guard
+            let hostID = userDefault.string(forKey: "userID")
+            else { print("hostID is nil in ChatViewController")
+                return
+        }
 
-        channelReference.queryOrdered(byChild: "sentDate").observe(.value) { (snapshot) in
+        guard
+            let displayName = Auth.auth().currentUser?.displayName
+            else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
+                return
+        }
+
+        self.sender = Sender(id: hostID, displayName: displayName)
+
+        guard
+            let channel = channel
+            else { print("channel is nil")
+                return
+        }
+
+        // For get messageId, display firebase data ,not add child("message") folder
+        chatsReference.child(channel.channelID).queryOrdered(byChild: "sentDate").observe(.value) { (snapshot) in
 
             var newMessages: [Message] = []
 
@@ -85,36 +113,37 @@ class ChatViewController: UIViewController {
                         else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotValueAsDictionaryError)
                             return
                     }
+                    print("dictionary in chats", dictionary)
 
                     for (messageID, messageValue) in dictionary {
 
                         guard
                             let messageDictionary = messageValue as? [String: Any]
-                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageValueAsDictionaryError)
+                            else { print(TypeAsError.messageValueAsDictionaryError)
                                 return
                         }
 
                         guard
                             let content = messageDictionary["content"] as? String
-                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageContentAsStringError)
+                            else { print(TypeAsError.messageContentAsStringError)
                                 return
                         }
 
                         guard
                             let sentDateString = messageDictionary["sentDate"] as? String
-                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageSentDateAsStringError)
+                            else { print(TypeAsError.messageSentDateAsStringError)
                                 return
                         }
 
                         guard
                             let uid = messageDictionary["senderID"] as? String
-                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageSenderIDAsStringError)
+                            else { print(TypeAsError.messageSenderIDAsStringError)
                                 return
                         }
 
                         guard
                             let displayName = messageDictionary["displayName"] as? String
-                            else { self.delegate?.manager(self, didFailWith: TypeAsError.messageDisplayNameAsStringError)
+                            else { print(TypeAsError.messageDisplayNameAsStringError)
                                 return
                         }
 
@@ -123,7 +152,7 @@ class ChatViewController: UIViewController {
 
                         guard
                             let sentDate: Date = dateFormatter.date(from: sentDateString)
-                            else { self.delegate?.manager(self, didFailWith: TypeAsError.stringAsDateError)
+                            else { print(TypeAsError.stringAsDateError)
                                 return
                         }
 
@@ -142,7 +171,7 @@ class ChatViewController: UIViewController {
             DispatchQueue.main.async {
 
                 let sortMessages = newMessages.sorted { $0.sentDate < $1.sentDate }
-
+                print("sortMessages", sortMessages)
                 self.messages = sortMessages
 
                 self.messagesViewController.messagesCollectionView.reloadData()
@@ -188,11 +217,18 @@ class ChatViewController: UIViewController {
                 return
         }
 
-        let messageItemReference = messageReference.childByAutoId()
+        guard
+            let channel = channel
+            else { print("channel is nil")
+                return
+        }
+
+        // For get messageId, add child("message") folder.
+        let messageItemReference = chatsReference.child(channel.channelID).child("message").childByAutoId()
 
         guard
             let messageId = messageItemReference.key
-            else { self.delegate?.manager(self, didFailWith: MessageError.messageIdNotFound)
+            else { print("messageId is nil.")
                 return
         }
 

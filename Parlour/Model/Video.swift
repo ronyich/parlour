@@ -12,26 +12,31 @@ import Firebase
 struct Video {
 
     var title: String
-    var videoID: String
+    var youtubeID: String
     var thumbnail: String
+    var currentTime: Int
     var duration: Int
-    
+    var hostID: String
 
-    init(title: String, videoID: String, thumbnail: String, duration: Int) {
+    init(title: String, youtubeID: String, thumbnail: String, currentTime: Int, duration: Int, hostID: String) {
 
         self.title = title
-        self.videoID = videoID
+        self.youtubeID = youtubeID
         self.thumbnail = thumbnail
+        self.currentTime = currentTime
         self.duration = duration
+        self.hostID = hostID
 
     }
 
-    init?(snapshot: DataSnapshot, title: String, videoID: String, thumbnail: String, duration: Int) {
+    init?(snapshot: DataSnapshot, title: String, youtubeID: String, thumbnail: String, currentTime: Int, duration: Int, hostID: String) {
 
         self.title = title
-        self.videoID = videoID
+        self.youtubeID = youtubeID
         self.thumbnail = thumbnail
+        self.currentTime = currentTime
         self.duration = duration
+        self.hostID = hostID
 
     }
 
@@ -40,9 +45,11 @@ struct Video {
         return [
 
             "title": title,
-            "videoID": videoID,
+            "youtubeID": youtubeID,
             "thumbnail": thumbnail,
-            "duration": duration
+            "currentTime": currentTime,
+            "duration": duration,
+            "hostID": hostID
 
         ]
 

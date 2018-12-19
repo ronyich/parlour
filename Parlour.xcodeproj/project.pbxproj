@@ -17,7 +17,6 @@
 		6828C79E21B502E500BE14CC /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C79D21B502E500BE14CC /* ChatRoomViewController.swift */; };
 		6828C7A421B64E2B00BE14CC /* UICollectionView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7A321B64E2A00BE14CC /* UICollectionView+Additions.swift */; };
 		6828C7A621B677A900BE14CC /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7A521B677A900BE14CC /* ChatViewController.swift */; };
-		6828C7AA21B84BE500BE14CC /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7A921B84BE500BE14CC /* Channel.swift */; };
 		6828C7AC21BD341600BE14CC /* MyChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7AB21BD341600BE14CC /* MyChatViewController.swift */; };
 		6828C7AF21BE6EF900BE14CC /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7AE21BE6EF900BE14CC /* Video.swift */; };
 		6828C7B121BF942E00BE14CC /* ErrorHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6828C7B021BF942E00BE14CC /* ErrorHandle.swift */; };
@@ -46,6 +45,7 @@
 		68D756ED21AD56CE005C0A5B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756EC21AD56CE005C0A5B /* User.swift */; };
 		68D756EF21AD8A81005C0A5B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756EE21AD8A81005C0A5B /* SignUpViewController.swift */; };
 		68D756F121AD9D61005C0A5B /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */; };
+		68E68CDD21CA37C4001C186C /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E68CDC21CA37C4001C186C /* Channel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,7 +60,6 @@
 		6828C79D21B502E500BE14CC /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		6828C7A321B64E2A00BE14CC /* UICollectionView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Additions.swift"; sourceTree = "<group>"; };
 		6828C7A521B677A900BE14CC /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		6828C7A921B84BE500BE14CC /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		6828C7AB21BD341600BE14CC /* MyChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatViewController.swift; sourceTree = "<group>"; };
 		6828C7AE21BE6EF900BE14CC /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		6828C7B021BF942E00BE14CC /* ErrorHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandle.swift; sourceTree = "<group>"; };
@@ -91,6 +90,7 @@
 		68D756EC21AD56CE005C0A5B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		68D756EE21AD8A81005C0A5B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		68E68CDC21CA37C4001C186C /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		D18B697E587059E73FAD7491 /* Pods-Parlour.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parlour.release.xcconfig"; path = "Pods/Target Support Files/Pods-Parlour/Pods-Parlour.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +124,7 @@
 				6828C7AE21BE6EF900BE14CC /* Video.swift */,
 				6828C7BF21C0F7A800BE14CC /* VideoControl.swift */,
 				6828C7BD21C0E49400BE14CC /* VideoManager.swift */,
+				68E68CDC21CA37C4001C186C /* Channel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -143,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				6828C78721AFC75E00BE14CC /* Message.swift */,
-				6828C7A921B84BE500BE14CC /* Channel.swift */,
 				6828C79D21B502E500BE14CC /* ChatRoomViewController.swift */,
 				6828C7A521B677A900BE14CC /* ChatViewController.swift */,
 			);
@@ -411,7 +411,6 @@
 				68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */,
 				6854833621C51EF500C6FC0A /* LiveChatSettingTableViewController.swift in Sources */,
 				6828C7B721C0C51100BE14CC /* HomePageTableViewController.swift in Sources */,
-				6828C7AA21B84BE500BE14CC /* Channel.swift in Sources */,
 				6854832521C2D89300C6FC0A /* VideoPlayTableViewController.swift in Sources */,
 				6828C7C321C11C6500BE14CC /* PopularVideoTableViewCell.swift in Sources */,
 				6828C79B21B4E5CC00BE14CC /* VideoMainCollectionViewCell.swift in Sources */,
@@ -422,6 +421,7 @@
 				6828C78821AFC75E00BE14CC /* Message.swift in Sources */,
 				6828C7B121BF942E00BE14CC /* ErrorHandle.swift in Sources */,
 				6828C79421B12E6B00BE14CC /* YouTubeVideoQuality.swift in Sources */,
+				68E68CDD21CA37C4001C186C /* Channel.swift in Sources */,
 				6828C7A621B677A900BE14CC /* ChatViewController.swift in Sources */,
 				6828C79221B1159600BE14CC /* ParlourViewController.swift in Sources */,
 				6828C7AC21BD341600BE14CC /* MyChatViewController.swift in Sources */,
