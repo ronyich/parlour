@@ -9,17 +9,9 @@
 import UIKit
 import Firebase
 
-protocol HomePageDelegate: AnyObject {
-
-    func manager(_ manager: HomePageTableViewController, didFailWith error: Error)
-
-}
-
 class HomePageTableViewController: UITableViewController {
 
 //    static let shared = HomePageTableViewController()
-
-    weak var delegate: HomePageDelegate?
 
     let videoManager = VideoManager()
 
@@ -60,43 +52,43 @@ class HomePageTableViewController: UITableViewController {
 
                 guard
                     let snapshot = child as? DataSnapshot
-                    else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotChildAsDataSnapshotError)
+                    else { print(TypeAsError.snapshotChildAsDataSnapshotError)
                         return
                 }
 
                 guard
                     let listDictionary = snapshot.value as? [String: Any]
-                    else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotValueAsDictionaryError)
+                    else { print(TypeAsError.snapshotValueAsDictionaryError)
                         return
                 }
 
                 guard
                     let title = listDictionary["title"] as? String
-                    else { self.delegate?.manager(self, didFailWith: TypeAsError.titleAsStringError)
+                    else { print(TypeAsError.titleAsStringError)
                         return
                 }
 
                 guard
                     let youtubeID = listDictionary["videoID"] as? String
-                    else { self.delegate?.manager(self, didFailWith: TypeAsError.videoIDAsStringError)
+                    else { print(TypeAsError.videoIDAsStringError)
                         return
                 }
 
                 guard
                     let thumbnail = listDictionary["thumbnail"] as? String
-                    else { self.delegate?.manager(self, didFailWith: TypeAsError.thumbnailAsStringError)
+                    else { print(TypeAsError.thumbnailAsStringError)
                         return
                 }
 
                 guard
                     let duration = listDictionary["duration"] as? Int
-                    else { self.delegate?.manager(self, didFailWith: TypeAsError.durationAsIntError)
+                    else { print(TypeAsError.durationAsIntError)
                         return
                 }
 
                 guard
                     let hostID = listDictionary["hostID"] as? String
-                    else { print("hostID is nil")
+                    else { print("hostID is nil in HomePageTableViewController.")
                         return
                 }
 
@@ -146,7 +138,7 @@ class HomePageTableViewController: UITableViewController {
 
             guard
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainVideoTableViewCell", for: indexPath) as? MainVideoTableViewCell
-                else { fatalError(String(describing: self.delegate?.manager(self, didFailWith: TableViewError.cellAsMainVideoTableViewCellError)))
+                else { fatalError("\(TableViewError.cellAsMainVideoTableViewCellError)")
             }
 
             if let videos = videos {
@@ -175,8 +167,7 @@ class HomePageTableViewController: UITableViewController {
 
                             } catch {
 
-                                self.delegate?.manager(self, didFailWith: DataTaskError.dataHandlerError)
-                                print(error.localizedDescription)
+                                print(DataTaskError.dataHandlerError, error.localizedDescription)
 
                             }
 
@@ -184,18 +175,18 @@ class HomePageTableViewController: UITableViewController {
 
                     } else {
 
-                        self.delegate?.manager(self, didFailWith: DataTaskError.urlNotFound)
+                        print(DataTaskError.urlNotFound)
 
                     }
 
                 } else {
 
-                    self.delegate?.manager(self, didFailWith: VideoError.videoNotFound)
+                    print(VideoError.videoNotFound)
                 }
 
             } else {
 
-                self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
+                print(VideoError.videosNotFound)
 
             }
 
@@ -212,7 +203,7 @@ class HomePageTableViewController: UITableViewController {
 
             guard
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PopularVideoTableViewCell", for: indexPath) as? PopularVideoTableViewCell
-                else { fatalError(String(describing: self.delegate?.manager(self, didFailWith: TableViewError.cellAsPopularVideoTableViewCellError)))
+                else { fatalError("\(TableViewError.cellAsPopularVideoTableViewCellError)")
             }
 
             cell.popularVideoCollectionView.register(UINib(nibName: "PopularVideoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PopularVideoCollectionViewCell")
@@ -255,12 +246,12 @@ class HomePageTableViewController: UITableViewController {
     @objc func fetchUserTapTableViewImageToPlayVideo() {
 
         guard let indexPath = tableView.indexPathForRow(at: tapGestureRecognizer.location(in: tableView))
-            else { self.delegate?.manager(self, didFailWith: TableViewError.getIndexPathError)
+            else { print(TableViewError.getIndexPathError)
                 return
         }
 
         guard let videos = videos, videos.count >= 1
-            else { self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
+            else { print(VideoError.videosNotFound)
                 return
         }
 
@@ -277,7 +268,7 @@ class HomePageTableViewController: UITableViewController {
 
             guard
                 let videoPlayTableViewController =  segue.destination as? VideoPlayTableViewController
-                else { self.delegate?.manager(self, didFailWith: TypeAsError.segueAsVideoPlayTableViewControllerError)
+                else { print(TypeAsError.segueAsVideoPlayTableViewControllerError)
                     return
             }
 
@@ -285,7 +276,7 @@ class HomePageTableViewController: UITableViewController {
 
         } else {
 
-            self.delegate?.manager(self, didFailWith: SegueError.segueIdentifierError)
+            print(SegueError.segueIdentifierError)
 
         }
 
@@ -311,7 +302,7 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
 
         guard
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularVideoCollectionViewCell", for: indexPath) as? PopularVideoCollectionViewCell
-            else { fatalError(String(describing: self.delegate?.manager(self, didFailWith: CollectionViewError.cellAsPopularVideoCollectionViewCellError)))
+            else { fatalError("\(CollectionViewError.cellAsPopularVideoCollectionViewCellError)")
         }
 
         if let videos = videos {
@@ -341,8 +332,7 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
 
                         } catch {
 
-                        self.delegate?.manager(self, didFailWith: DataTaskError.dataNotFound)
-                        print(error.localizedDescription)
+                        print("\(DataTaskError.dataNotFound)", error.localizedDescription)
 
                         }
 
@@ -350,19 +340,19 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
 
                 } else {
 
-                    self.delegate?.manager(self, didFailWith: DataTaskError.urlNotFound)
+                    print(DataTaskError.urlNotFound)
 
                 }
 
             } else {
 
-                self.delegate?.manager(self, didFailWith: VideoError.videosCountOutOfRange)
+                print(VideoError.videosCountOutOfRange)
 
             }
 
         } else {
 
-            self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
+            print(VideoError.videosNotFound)
 
         }
 
@@ -380,12 +370,12 @@ extension HomePageTableViewController: UICollectionViewDelegate, UICollectionVie
 
         guard
             let indexPath = popularVideoCollectionView?.indexPathForItem(at: sender.location(in: popularVideoCollectionView))
-            else { self.delegate?.manager(self, didFailWith: CollectionViewError.getIndexPathError)
+            else { print(CollectionViewError.getIndexPathError)
                 return
         }
 
         guard let videos = videos, videos.count >= 1
-            else { self.delegate?.manager(self, didFailWith: VideoError.videosNotFound)
+            else { print(VideoError.videosNotFound)
                 return
         }
 

@@ -11,6 +11,7 @@ import Firebase
 import XCDYouTubeKit
 import AVKit
 import MessageKit
+import YouTubePlayer
 
 class ParlourViewController: UIViewController {
 
@@ -29,10 +30,9 @@ class ParlourViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //playVideo(videoIdentifier: "gKwN39UwM9Y")
 
         let tapGestureRecognizer = UITapGestureRecognizer()
-        tapGestureRecognizer.addTarget(self, action: #selector(goToChatView))
+        tapGestureRecognizer.addTarget(self, action: #selector(goToChatRoom))
 
         videoMainImageView.addGestureRecognizer(tapGestureRecognizer)
         videoMainImageView.isUserInteractionEnabled = true
@@ -51,51 +51,67 @@ class ParlourViewController: UIViewController {
                             return
                     }
 
-                    print("dictionary", dictionary)
+                    guard
+                        let youtubeID = dictionary["youtubeID"] as? String
+                        else { print("youtubeID ID is nil.")
+                            return
+                    }
 
-                        guard
-                            let youtubeID = dictionary["youtubeID"] as? String
-                            else { print("youtubeID ID is nil.")
-                                return
-                        }
+                    guard
+                        let title = dictionary["title"] as? String
+                        else { print("title is nil.")
+                            return
+                    }
 
-                        guard
-                            let title = dictionary["title"] as? String
-                            else { print("title is nil.")
-                                return
-                        }
+                    guard
+                        let type = dictionary["type"] as? String
+                        else { print("type is nil.")
+                            return
+                    }
 
-                        guard
-                            let type = dictionary["type"] as? String
-                            else { print("type is nil.")
-                                return
-                        }
+                    guard
+                        let password = dictionary["password"] as? String
+                        else { print("password is nil.")
+                            return
+                    }
 
-                        guard
-                            let password = dictionary["password"] as? String
-                            else { print("password is nil.")
-                                return
-                        }
+                    guard
+                        let isLive = dictionary["isLive"] as? String
+                        else { print("isLive is nil.")
+                            return
+                    }
 
-                        guard
-                            let isLive = dictionary["isLive"] as? String
-                            else { print("isLive is nil.")
-                                return
-                        }
+                    guard
+                        let channelID = dictionary["channelID"] as? String
+                        else { print("channelID is nil.")
+                            return
+                    }
 
-                        guard
-                            let channelID = dictionary["channelID"] as? String
-                            else { print("channelID is nil.")
-                                return
-                        }
+                    guard
+                        let hostID = dictionary["hostID"] as? String
+                        else { print("hostID is nil in ParlourViewController.")
+                            return
+                    }
 
-                        guard
-                            let hostID = dictionary["hostID"] as? String
-                            else { print("hostID is nil.")
-                                return
-                        }
+                    guard
+                        let playerState = dictionary["playerState"] as? String
+                        else { print("playerState is nil.")
+                            return
+                    }
 
-                    let channel = Channel(hostID: hostID, title: title, type: type, isLive: isLive, password: password, youtubeID: youtubeID, channelID: channelID)
+                    guard
+                        let currentTime = dictionary["currentTime"] as? String
+                        else { print("currentTime is nil.")
+                            return
+                    }
+
+                    guard
+                        let hostName = dictionary["hostName"] as? String
+                        else { print("hostName is nil.")
+                            return
+                    }
+
+                    let channel = Channel(hostID: hostID, title: title, type: type, isLive: isLive, password: password, youtubeID: youtubeID, channelID: channelID, playerState: playerState, currentTime: currentTime, hostName: hostName)
 
                         newChannels.append(channel)
 
@@ -128,22 +144,6 @@ class ParlourViewController: UIViewController {
                 playerViewController?.player = AVPlayer(url: streamURL)
                 playerViewController?.player?.play()
                 playerViewController?.player?.currentTime()
-
-                //playerViewController?.player = AVQueuePlayer(playerItem: AVPlayerItem(asset: AVAsset(url: streamURL), automaticallyLoadedAssetKeys: ["Q0AULj4UltI","gKwN39UwM9Y"]))
-
-                print("video control:",
-                      playerViewController?.player?.play(),
-                      playerViewController?.player?.status,
-                      playerViewController?.player?.pause())
-                
-                print("video property",
-                      video?.title,
-                      video?.duration,
-                      video?.thumbnailURL,
-                      video?.captionURLs,
-                      video?.identifier,
-                      playerViewController?.player?.currentTime()
-                      )
 
             } else {
 
@@ -188,7 +188,7 @@ class ParlourViewController: UIViewController {
 
     }
 
-    @objc func goToChatView() {
+    @objc func goToChatRoom() {
 
         performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
 
@@ -223,6 +223,12 @@ class ParlourViewController: UIViewController {
             guard
                 let textFieldInputString = alert.textFields?[0].text
                 else { print("textFields[0] is nil.")
+                    return
+            }
+
+            guard
+                let uid = Auth.auth().currentUser?.uid
+                else { print(UserError.userIDNotFound)
                     return
             }
 
@@ -295,7 +301,7 @@ extension ParlourViewController: UICollectionViewDelegate, UICollectionViewDataS
                 DispatchQueue.main.async {
                     print("imageData", data)
                     cell.videoMainImageView.image = UIImage(data: data)
-                    //videoMainImageView is nil
+
                 }
 
             }).resume()

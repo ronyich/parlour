@@ -13,5 +13,6 @@ target 'Parlour' do
   pod 'JGProgressHUD'
   pod 'XCDYouTubeKit'
   pod 'MessageKit'
+  pod 'YouTubePlayer'
 
 end

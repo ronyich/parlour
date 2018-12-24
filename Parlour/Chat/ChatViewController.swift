@@ -11,14 +11,7 @@ import Firebase
 import MessageKit
 import MessageInputBar
 
-protocol ChatDelegate: AnyObject {
-
-    func manager(_ manager: ChatViewController, didFailWith error: Error)
-}
-
 class ChatViewController: UIViewController {
-
-    weak var delegate: ChatDelegate?
 
     let messagesViewController = MessagesViewController()
 
@@ -79,6 +72,8 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.messagesLayoutDelegate = self
         messagesViewController.messagesCollectionView.messagesDisplayDelegate = self
 
+        //messagesViewController.messageInputBar.delegate = self
+
         guard
             let hostID = userDefault.string(forKey: "userID")
             else { print("hostID is nil in ChatViewController")
@@ -87,7 +82,7 @@ class ChatViewController: UIViewController {
 
         guard
             let displayName = Auth.auth().currentUser?.displayName
-            else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
+            else { print(UserError.displayNameNotFound)
                 return
         }
 
@@ -110,10 +105,9 @@ class ChatViewController: UIViewController {
 
                     guard
                         let dictionary = snapshot.value as? [String: Any]
-                        else { self.delegate?.manager(self, didFailWith: TypeAsError.snapshotValueAsDictionaryError)
+                        else { print(TypeAsError.snapshotValueAsDictionaryError)
                             return
                     }
-                    print("dictionary in chats", dictionary)
 
                     for (messageID, messageValue) in dictionary {
 
@@ -201,19 +195,19 @@ class ChatViewController: UIViewController {
 
         guard
             let uid = Auth.auth().currentUser?.uid
-            else { self.delegate?.manager(self, didFailWith: UserError.userIDNotFound)
+            else { print(UserError.userIDNotFound)
                 return
         }
 
         guard
             let displayName = Auth.auth().currentUser?.displayName
-            else { self.delegate?.manager(self, didFailWith: UserError.displayNameNotFound)
+            else { print(UserError.displayNameNotFound)
                 return
         }
 
         guard
             let inputText = inputMessageTextField.text
-            else { self.delegate?.manager(self, didFailWith: MessageError.messageInputTextError)
+            else { print(MessageError.messageInputTextError)
                 return
         }
 
@@ -298,7 +292,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
 
-        avatarView.backgroundColor = .yellow
+        avatarView.backgroundColor = .lightGray
     }
 
 }

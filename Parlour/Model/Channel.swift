@@ -15,18 +15,26 @@ struct Channel {
     var type: String
     var isLive: String
     var password: String
+
     var youtubeID: String
     let channelID: String
+    var playerState: String
+    var currentTime: String
+    let hostName: String
 
-    init(hostID: String, title: String, type: String, isLive: String, password: String, youtubeID: String, channelID: String) {
+    init(hostID: String, title: String, type: String, isLive: String, password: String, youtubeID: String, channelID: String, playerState: String, currentTime: String, hostName: String) {
 
         self.hostID = hostID
         self.title = title
         self.type = type
         self.isLive = isLive
         self.password = password
+        
         self.youtubeID = youtubeID
         self.channelID = channelID
+        self.playerState = playerState
+        self.currentTime = currentTime
+        self.hostName = hostName
 
     }
 
@@ -39,8 +47,12 @@ struct Channel {
             "type": type,
             "isLive": isLive,
             "password": password,
+
             "youtubeID": youtubeID,
-            "channelID": channelID
+            "channelID": channelID,
+            "playerState": playerState,
+            "currentTime": currentTime,
+            "hostName": hostName
 
         ]
 

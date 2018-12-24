@@ -10,11 +10,21 @@ import UIKit
 import Firebase
 import XCDYouTubeKit
 
+protocol LiveChatSettingDelegate: AnyObject {
+
+    func manager(_ manager: LiveChatSettingViewController?, didFetchChannel: Channel)
+
+    func showChatRoomViewController(sender: Bool)
+
+}
+
 class LiveChatSettingViewController: UIViewController {
 
     var youtubeID: String?
 
     var video: Video?
+
+    weak var delegate: LiveChatSettingDelegate?
 
     @IBOutlet weak var videoThumbnailImageView: UIImageView!
 
@@ -22,9 +32,9 @@ class LiveChatSettingViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
 
-    @IBOutlet weak var typeTextField: UITextField!
+    //@IBOutlet weak var typeTextField: UITextField!
 
-    @IBOutlet weak var passwordTextField: UITextField!
+    //@IBOutlet weak var passwordTextField: UITextField!
 
     let videosReference = Database.database().reference(withPath: "videos")
 
@@ -43,8 +53,8 @@ class LiveChatSettingViewController: UIViewController {
     @objc func tapMessagesCollectionViewToEndEditing() {
 
         titleTextField.endEditing(true)
-        typeTextField.endEditing(true)
-        passwordTextField.endEditing(true)
+        //typeTextField.endEditing(true)
+        //passwordTextField.endEditing(true)
 
     }
 
@@ -133,8 +143,19 @@ class LiveChatSettingViewController: UIViewController {
         }
 
         guard
+            let parlourTableViewController = storyboard?.instantiateViewController(withIdentifier: "ParlourTableViewController") as? ParlourTableViewController
+            else { fatalError("As ParlourTableViewController error.")
+        }
+
+        guard
             let uid = Auth.auth().currentUser?.uid
             else { print(UserError.userIDNotFound)
+                return
+        }
+
+        guard
+            let displayName = Auth.auth().currentUser?.displayName
+            else { print(UserError.displayNameNotFound)
                 return
         }
 
@@ -146,18 +167,6 @@ class LiveChatSettingViewController: UIViewController {
         guard
             let title = titleTextField.text
             else { print("title is nil.")
-                return
-        }
-
-        guard
-            let type = typeTextField.text
-            else { print("type is nil.")
-                return
-        }
-
-        guard
-            let password = passwordTextField.text
-            else { print("password is nil.")
                 return
         }
 
@@ -173,68 +182,70 @@ class LiveChatSettingViewController: UIViewController {
                 return
         }
 
-        let channelItem = Channel(hostID: uid, title: title, type: type, isLive: "YES", password: password, youtubeID: youtubeID, channelID: channelID)
+        let channelItem = Channel(hostID: uid, title: title, type: "", isLive: "YES", password: "", youtubeID: youtubeID, channelID: channelID, playerState: "", currentTime: "0", hostName: displayName)
 
         channelsReference.child(channelID).setValue(channelItem.uploadChannelObjectToFirebase())
 
-        chatRoomViewController.channel = channelItem
-
         videosReference.child(channelID).setValue(video.saveVideoObjectToFirebase())
 
-        present(chatRoomViewController, animated: true, completion: nil)
+        dismiss(animated: true) { [weak self] in
+
+            self?.delegate?.manager(self, didFetchChannel: channelItem)
+            self?.delegate?.showChatRoomViewController(sender: true)
+
+        }
 
     }
 
-    @IBAction func startButton(_ sender: UIButton) {
-
-        guard
-            let chatRoomViewController = storyboard?.instantiateViewController(withIdentifier: "ChatRoomViewController") as? ChatRoomViewController
-            else { fatalError("As ChatRoomViewController error.")
-        }
-
-        guard
-            let uid = Auth.auth().currentUser?.uid
-            else { print(UserError.userIDNotFound)
-                return
-        }
-
-        guard let youtubeID = self.youtubeID
-            else { print("YoutubeID is nil.")
-                return
-        }
-
-        guard
-            let title = titleTextField.text
-            else { print("title is nil.")
-                return
-        }
-
-        guard
-            let type = typeTextField.text
-            else { print("type is nil.")
-                return
-        }
-
-        guard
-            let password = passwordTextField.text
-            else { print("password is nil.")
-                return
-        }
-
-        // MARK: editing...
-        let videoItem = VideoControl(videoID: youtubeID, nextVideoID: "nextVideoID", title: title, type: type, password: password, isLive: "YES", currentTime: 0, hostID: uid)
-
-        videosReference.child(uid).setValue(videoItem.saveVideoControlObjectToFirebase())
-
-//        chatRoomViewController.youtubeID = youtubeID
-        chatRoomViewController.hostID = uid
-//        chatRoomViewController.chatRoomTitle = titleTextField.text
-//        chatRoomViewController.chatRoomType = typeTextField.text
-//        chatRoomViewController.chatRoomPassword = passwordTextField.text ?? ""
-
-        present(chatRoomViewController, animated: true, completion: nil)
-
-    }
+//    @IBAction func startButton(_ sender: UIButton) {
+//
+//        guard
+//            let chatRoomViewController = storyboard?.instantiateViewController(withIdentifier: "ChatRoomViewController") as? ChatRoomViewController
+//            else { fatalError("As ChatRoomViewController error.")
+//        }
+//
+//        guard
+//            let uid = Auth.auth().currentUser?.uid
+//            else { print(UserError.userIDNotFound)
+//                return
+//        }
+//
+//        guard let youtubeID = self.youtubeID
+//            else { print("YoutubeID is nil.")
+//                return
+//        }
+//
+//        guard
+//            let title = titleTextField.text
+//            else { print("title is nil.")
+//                return
+//        }
+//
+//        guard
+//            let type = typeTextField.text
+//            else { print("type is nil.")
+//                return
+//        }
+//
+//        guard
+//            let password = passwordTextField.text
+//            else { print("password is nil.")
+//                return
+//        }
+//
+//        // MARK: editing...
+//        let videoItem = Channel(hostID: uid, title: titleTextField.text, type: typeTextField, isLive: "YES", password: passwordTextField, youtubeID: <#T##String#>, channelID: <#T##String#>, playerState: <#T##String#>, currentTime: <#T##String#>)
+//
+//        videosReference.child(uid).setValue(videoItem.saveVideoControlObjectToFirebase())
+//
+////        chatRoomViewController.youtubeID = youtubeID
+////        chatRoomViewController.chatRoomTitle = titleTextField.text
+////        chatRoomViewController.chatRoomType = typeTextField.text
+////        chatRoomViewController.chatRoomPassword = passwordTextField.text ?? ""
+//
+//        present(chatRoomViewController, animated: true, completion: nil)
+//
+//    }
 
     @IBAction func cancelButton(_ sender: UIButton) {
 

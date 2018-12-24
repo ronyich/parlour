@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
 
             self.user = User(authData: user)
 
-            self.performSegue(withIdentifier: "Segue_To_TabBarController", sender: self)
+            self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: self)
 
             self.emailTextField.text = nil
             self.passwordTextField.text = nil
@@ -82,7 +82,7 @@ class LoginViewController: UIViewController {
 
             } else {
 
-                self.performSegue(withIdentifier: "Segue_To_TabBarController", sender: self)
+                self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: self)
             }
 
         }
