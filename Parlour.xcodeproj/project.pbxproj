@@ -51,6 +51,7 @@
 		68D756F121AD9D61005C0A5B /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */; };
 		68E68CDD21CA37C4001C186C /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E68CDC21CA37C4001C186C /* Channel.swift */; };
 		68EFAB9B21CB3FDD00458573 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFAB9A21CB3FDD00458573 /* TestViewController.swift */; };
+		68FCAB9021D0DCA800782A55 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68FCAB9221D0DCA800782A55 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,11 @@
 		68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		68E68CDC21CA37C4001C186C /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		68EFAB9A21CB3FDD00458573 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		68FCAB8921D0D28C00782A55 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		68FCAB8A21D0D28D00782A55 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		68FCAB8C21D0D3B700782A55 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		68FCAB9121D0DCA800782A55 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68FCAB9321D0DCAE00782A55 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		D18B697E587059E73FAD7491 /* Pods-Parlour.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parlour.release.xcconfig"; path = "Pods/Target Support Files/Pods-Parlour/Pods-Parlour.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,12 +130,12 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		6828C78921AFC79500BE14CC /* View */ = {
+		6828C78921AFC79500BE14CC /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
 				68D756DB21AD4E15005C0A5B /* Main.storyboard */,
 			);
-			path = View;
+			path = StoryBoard;
 			sourceTree = "<group>";
 		};
 		6828C78A21AFC7C400BE14CC /* Model */ = {
@@ -242,9 +248,10 @@
 				68D756EB21AD5687005C0A5B /* Login */,
 				6828C7B821C0C5AC00BE14CC /* Home Page */,
 				6854832321C2D84E00C6FC0A /* VideoPlay Page */,
-				6828C78921AFC79500BE14CC /* View */,
+				6828C78921AFC79500BE14CC /* StoryBoard */,
 				6828C78D21AFD67C00BE14CC /* Parlour Page */,
 				6828C79F21B541F900BE14CC /* Chat */,
+				68FCAB8F21D0DC2600782A55 /* Localizable */,
 				6828C7AD21BE432C00BE14CC /* Test */,
 				6828C7A221B64DF800BE14CC /* Extentions */,
 				68D756DE21AD4E16005C0A5B /* Assets.xcassets */,
@@ -263,6 +270,15 @@
 				68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		68FCAB8F21D0DC2600782A55 /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				68FCAB9221D0DCA800782A55 /* Localizable.strings */,
+			);
+			name = Localizable;
+			path = StoryBoard;
 			sourceTree = "<group>";
 		};
 		D0ED0F73DBBC645418240E4F /* Frameworks */ = {
@@ -294,7 +310,8 @@
 				68D756D121AD4E15005C0A5B /* Frameworks */,
 				68D756D221AD4E15005C0A5B /* Resources */,
 				A8671434B6E48104F08FF23B /* [CP] Embed Pods Frameworks */,
-				6828C79021AFF3F700BE14CC /* ShellScript */,
+				6828C79021AFF3F700BE14CC /* Swiftlint */,
+				6828510C21D2142000B6EA78 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -327,6 +344,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = 68D756CB21AD4E15005C0A5B;
 			productRefGroup = 68D756D521AD4E15005C0A5B /* Products */;
@@ -344,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6854833421C3B67D00C6FC0A /* VideoOptionTableViewCell.xib in Resources */,
+				68FCAB9021D0DCA800782A55 /* Localizable.strings in Resources */,
 				6828C7BC21C0C61D00BE14CC /* MainVideoTableViewCell.xib in Resources */,
 				6854832921C2E20F00C6FC0A /* VideoPlayTableViewCell.xib in Resources */,
 				6828C78F21AFE53000BE14CC /* GoogleService-Info.plist in Resources */,
@@ -378,13 +397,32 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6828C79021AFF3F700BE14CC /* ShellScript */ = {
+		6828510C21D2142000B6EA78 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" e4f91bcb36aa9b662e1afad4db1e4b0449f68438 1d9440c5897a9afbeef75f1f45534486716fcded727f72c297f1c93c51142fd5\n";
+		};
+		6828C79021AFF3F700BE14CC /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = Swiftlint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,8 +439,11 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/MessageInputBar/MessageInputBar.framework",
 				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
+				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/XCDYouTubeKit/XCDYouTubeKit.framework",
 				"${BUILT_PRODUCTS_DIR}/YouTubePlayer/YouTubePlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -413,8 +454,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JGProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageInputBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCDYouTubeKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YouTubePlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -474,6 +518,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				68D756DC21AD4E15005C0A5B /* Base */,
+				68FCAB8921D0D28C00782A55 /* zh-Hant */,
+				68FCAB8C21D0D3B700782A55 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -482,8 +528,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				68D756E121AD4E16005C0A5B /* Base */,
+				68FCAB8A21D0D28D00782A55 /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		68FCAB9221D0DCA800782A55 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				68FCAB9121D0DCA800782A55 /* en */,
+				68FCAB9321D0DCAE00782A55 /* zh-Hant */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -493,6 +549,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -523,7 +580,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -554,6 +611,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

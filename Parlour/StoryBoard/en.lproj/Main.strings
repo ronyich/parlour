@@ -1,0 +1,111 @@
+
+/* Class = "UILabel"; text = "Parlour"; ObjectID = "0du-bJ-eXy"; */
+"0du-bJ-eXy.text" = "Parlour";
+
+/* Class = "UITextField"; placeholder = "Input Message"; ObjectID = "2SD-Rg-JUi"; */
+"2SD-Rg-JUi.placeholder" = "Input Message";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "4SG-Rh-3dx"; */
+"4SG-Rh-3dx.normalTitle" = "Send";
+
+/* Class = "UINavigationItem"; title = "Root View Controller"; ObjectID = "5fw-3O-lVc"; */
+"5fw-3O-lVc.title" = "Root View Controller";
+
+/* Class = "UIButton"; normalTitle = "Start"; ObjectID = "6Cn-Hq-2fE"; */
+"6Cn-Hq-2fE.normalTitle" = "Start";
+
+/* Class = "UILabel"; text = "Prepare to Live video"; ObjectID = "6XA-1C-xZD"; */
+"6XA-1C-xZD.text" = "Prepare to Live video";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "BDK-c8-Hyg"; */
+"BDK-c8-Hyg.normalTitle" = "Login";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "Emm-re-lKx"; */
+"Emm-re-lKx.normalTitle" = "Cancel";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "ISb-66-P0e"; */
+"ISb-66-P0e.placeholder" = "Password";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "LN5-Dg-jnb"; */
+"LN5-Dg-jnb.normalTitle" = "Cancel";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "Okw-XF-UhK"; */
+"Okw-XF-UhK.title" = "Item";
+
+/* Class = "UITextField"; placeholder = "Confirm Password"; ObjectID = "PkJ-vA-hhD"; */
+"PkJ-vA-hhD.placeholder" = "Confirm Password";
+
+/* Class = "UILabel"; text = "Title Loading..."; ObjectID = "Qa7-aH-pat"; */
+"Qa7-aH-pat.text" = "Title Loading...";
+
+/* Class = "UINavigationItem"; title = "HomePage"; ObjectID = "U0c-HS-Rxh"; */
+"U0c-HS-Rxh.title" = "HomePage";
+
+/* Class = "UIButton"; normalTitle = "Sign up"; ObjectID = "Uer-KC-rZg"; */
+"Uer-KC-rZg.normalTitle" = "Sign up";
+
+/* Class = "UITabBarItem"; title = "List"; ObjectID = "Wca-Ag-una"; */
+"Wca-Ag-una.title" = "List";
+
+/* Class = "UILabel"; text = "Reset Password"; ObjectID = "ZwZ-UX-3H3"; */
+"ZwZ-UX-3H3.text" = "Reset Password";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "aEp-VI-mhL"; */
+"aEp-VI-mhL.title" = "Home";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "daf-fM-QGg"; */
+"daf-fM-QGg.placeholder" = "Password";
+
+/* Class = "UITabBarItem"; title = "Parlour"; ObjectID = "eQq-ea-aG2"; */
+"eQq-ea-aG2.title" = "Parlour";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "gcn-Rv-TLO"; */
+"gcn-Rv-TLO.placeholder" = "Email";
+
+/* Class = "UITextField"; placeholder = "Enter your email"; ObjectID = "gyh-Se-uzO"; */
+"gyh-Se-uzO.placeholder" = "Enter your email";
+
+/* Class = "UINavigationItem"; title = "Parlour"; ObjectID = "hbg-TX-ZoC"; */
+"hbg-TX-ZoC.title" = "Parlour";
+
+/* Class = "UILabel"; text = "Sign up"; ObjectID = "i5y-pa-uDE"; */
+"i5y-pa-uDE.text" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Forgot Password?"; ObjectID = "iNa-w7-jRo"; */
+"iNa-w7-jRo.normalTitle" = "Forgot Password?";
+
+/* Class = "UITableViewController"; title = "VideoPlay"; ObjectID = "iUS-Ts-1TK"; */
+"iUS-Ts-1TK.title" = "VideoPlay";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "jPR-88-dUb"; */
+"jPR-88-dUb.title" = "Item";
+
+/* Class = "UINavigationItem"; title = "Title"; ObjectID = "mGf-N7-9rB"; */
+"mGf-N7-9rB.title" = "Title";
+
+/* Class = "UITextField"; placeholder = "Input chat room title"; ObjectID = "q7m-GJ-7Ol"; */
+"q7m-GJ-7Ol.placeholder" = "Input chat room title";
+
+/* Class = "UITextField"; placeholder = "User Name"; ObjectID = "qc0-Rv-tod"; */
+"qc0-Rv-tod.placeholder" = "User Name";
+
+/* Class = "UINavigationItem"; title = "Title"; ObjectID = "qlf-Rj-caW"; */
+"qlf-Rj-caW.title" = "Title";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "rVr-8a-b6O"; */
+"rVr-8a-b6O.placeholder" = "Email";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "rsn-nY-Azs"; */
+"rsn-nY-Azs.normalTitle" = "Cancel";
+
+/* Class = "UINavigationItem"; title = "Chat Room"; ObjectID = "uoF-v2-Zyb"; */
+"uoF-v2-Zyb.title" = "Chat Room";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "w01-09-O7w"; */
+"w01-09-O7w.normalTitle" = "Send";
+
+/* Class = "UIButton"; normalTitle = "Sign up"; ObjectID = "xjd-0i-kwj"; */
+"xjd-0i-kwj.normalTitle" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "zIt-cQ-C71"; */
+"zIt-cQ-C71.normalTitle" = "Button";

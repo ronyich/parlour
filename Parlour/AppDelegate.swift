@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import MessageKit
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Database.database().isPersistenceEnabled = true
 
         UIApplication.shared.statusBarStyle = .lightContent
+
+        Fabric.sharedSDK().debug = true
+        Fabric.with([Crashlytics.self])
 
         return true
 

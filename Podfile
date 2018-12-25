@@ -14,5 +14,10 @@ target 'Parlour' do
   pod 'XCDYouTubeKit'
   pod 'MessageKit'
   pod 'YouTubePlayer'
+  pod 'NotificationBannerSwift'
+
+  pod 'Fabric'
+  pod 'Crashlytics'
+  pod 'GoogleAnalytics'
 
 end

@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import XCDYouTubeKit
+import NotificationBannerSwift
 
 protocol LiveChatSettingDelegate: AnyObject {
 
@@ -32,6 +33,8 @@ class LiveChatSettingViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
 
+    @IBOutlet weak var constraintView: UIView!
+    
     //@IBOutlet weak var typeTextField: UITextField!
 
     //@IBOutlet weak var passwordTextField: UITextField!
@@ -48,6 +51,16 @@ class LiveChatSettingViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapMessagesCollectionViewToEndEditing))
         self.view.addGestureRecognizer(tapGesture)
 
+        if let flareGradientImage = CAGradientLayer.darkGrayGradation(on: constraintView) {
+
+            constraintView.backgroundColor = UIColor(patternImage: flareGradientImage)
+
+        } else {
+
+            print("flareGradientImage error.")
+
+        }
+
     }
 
     @objc func tapMessagesCollectionViewToEndEditing() {
@@ -63,6 +76,14 @@ class LiveChatSettingViewController: UIViewController {
         XCDYouTubeClient.default().getVideoWithIdentifier(videoIdentifier) { (video: XCDYouTubeVideo?, error) in
 
             if let error = error {
+
+                self.dismiss(animated: true, completion: {
+
+                    let banner = NotificationBanner(title: "Wrong Youtube URL format", subtitle: "Example: https://youtu.be/nSDgHBxUbVQ", style: .danger)
+
+                    banner.show()
+
+                })
 
                 print(VideoError.videoIDNotFound, error.localizedDescription)
 
@@ -138,16 +159,6 @@ class LiveChatSettingViewController: UIViewController {
     @IBAction func startLiveChat(_ sender: UIButton) {
 
         guard
-            let chatRoomViewController = storyboard?.instantiateViewController(withIdentifier: "ChatRoomViewController") as? ChatRoomViewController
-            else { fatalError("As ChatRoomViewController error.")
-        }
-
-        guard
-            let parlourTableViewController = storyboard?.instantiateViewController(withIdentifier: "ParlourTableViewController") as? ParlourTableViewController
-            else { fatalError("As ParlourTableViewController error.")
-        }
-
-        guard
             let uid = Auth.auth().currentUser?.uid
             else { print(UserError.userIDNotFound)
                 return
@@ -165,8 +176,13 @@ class LiveChatSettingViewController: UIViewController {
         }
 
         guard
-            let title = titleTextField.text
-            else { print("title is nil.")
+            let title = titleTextField.text, title != ""
+            else {
+
+                let banner = NotificationBanner(title: NSLocalizedString("Title is empty", comment: ""), subtitle: NSLocalizedString("Please Input your chat room title over 1 character.", comment: ""), style: .danger)
+
+                banner.show()
+
                 return
         }
 
@@ -194,6 +210,8 @@ class LiveChatSettingViewController: UIViewController {
             self?.delegate?.showChatRoomViewController(sender: true)
 
         }
+
+        Analytics.logEvent("Start_Live_Chat", parameters: nil)
 
     }
 
@@ -247,9 +265,11 @@ class LiveChatSettingViewController: UIViewController {
 //
 //    }
 
-    @IBAction func cancelButton(_ sender: UIButton) {
+    @IBAction func cancelLiveChatSetting(_ sender: UIButton) {
 
         dismiss(animated: true, completion: nil)
+
+        Analytics.logEvent("Cancel_Live_Chat_Setting", parameters: nil)
 
     }
 

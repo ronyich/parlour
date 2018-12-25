@@ -10,14 +10,13 @@ import UIKit
 import Firebase
 import MessageKit
 import MessageInputBar
+import Crashlytics
 
 class ChatViewController: UIViewController {
 
     let messagesViewController = MessagesViewController()
 
     var messages: [Message] = []
-
-    var messageIds: [String] = []
 
     var sender: Sender?
 
@@ -31,17 +30,7 @@ class ChatViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
 
-    let database = Database.database()
-
-    let channelReference = Database.database().reference(withPath: "channel")
-
-    let messageReference = Database.database().reference(withPath: "channel/message")
-
-    let channelReferenceAutoIdKey = Database.database().reference(withPath: "channel").childByAutoId().key
-
     let chatsReference = Database.database().reference(withPath: "chats")
-
-    let outgoingAvatarOverlap: CGFloat = 17.5
 
 //    override var inputAccessoryView: UIView? {
 //        return messagesViewController.inputAccessoryView
@@ -165,10 +154,11 @@ class ChatViewController: UIViewController {
             DispatchQueue.main.async {
 
                 let sortMessages = newMessages.sorted { $0.sentDate < $1.sentDate }
-                print("sortMessages", sortMessages)
+
                 self.messages = sortMessages
 
                 self.messagesViewController.messagesCollectionView.reloadData()
+
                 self.messagesViewController.messagesCollectionView.scrollToBottom()
 
             }
@@ -188,7 +178,9 @@ class ChatViewController: UIViewController {
         messagesViewController.messagesCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapMessagesCollectionViewToEndEditing))
+
         messagesViewController.messagesCollectionView.addGestureRecognizer(tapGesture)
+
     }
 
     @IBAction func addNewMessageDidTouch(_ sender: UIButton) {
@@ -235,6 +227,8 @@ class ChatViewController: UIViewController {
         messages.append(messageItem)
         messagesViewController.messagesCollectionView.reloadData()
         messagesViewController.messagesCollectionView.scrollToBottom()
+
+        Analytics.logEvent("Add_New_Message_Did_Touch", parameters: nil)
 
     }
 

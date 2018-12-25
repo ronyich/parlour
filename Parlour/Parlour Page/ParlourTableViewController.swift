@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import XCDYouTubeKit
 import YouTubePlayer
+import Crashlytics
 
 class ParlourTableViewController: UITableViewController {
 
@@ -25,12 +26,6 @@ class ParlourTableViewController: UITableViewController {
         setNavigationBarColor()
 
         tableView.register(UINib(nibName: "ParlourTableViewCell", bundle: nil), forCellReuseIdentifier: "ParlourTableViewCell")
-
-        guard
-            let uid = Auth.auth().currentUser?.uid
-            else { print(UserError.userIDNotFound)
-                return
-        }
 
         channelsReference.observe(.value) { (snapshot) in
 
@@ -154,6 +149,16 @@ class ParlourTableViewController: UITableViewController {
                 else { fatalError("\(TableViewError.cellAsMainVideoTableViewCellError)")
             }
 
+            if let flareGradientImage = CAGradientLayer.darkGrayGradation(on: cell.constraintView) {
+
+                cell.constraintView.backgroundColor = UIColor(patternImage: flareGradientImage)
+
+            } else {
+
+                print("flareGradientImage error.")
+
+            }
+
             cell.selectionStyle = .none
 
             let tapGestureRecognizer = UITapGestureRecognizer()
@@ -174,19 +179,27 @@ class ParlourTableViewController: UITableViewController {
 
                     URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
 
-                        guard
-                            let data = data
-                            else { print("data is nil.")
-                                return
-                        }
+                        if let error = error {
 
-                        DispatchQueue.main.async {
+                            print("URLSession with url Error: \(error.localizedDescription)")
 
-                            cell.videoImageView.image = UIImage(data: data)
-                            cell.videoImageView.contentMode = .scaleAspectFit
+                        } else {
 
-                            cell.channelTitleLabel.text = self.channels[indexPath.row].title
-                            cell.channelHostNameLabel.text = self.channels[indexPath.row].hostName
+                            guard
+                                let data = data
+                                else { print("data is nil.")
+                                    return
+                            }
+
+                            DispatchQueue.main.async {
+
+                                cell.videoImageView.image = UIImage(data: data)
+                                cell.videoImageView.contentMode = .scaleAspectFit
+
+                                cell.channelTitleLabel.text = self.channels[indexPath.row].title
+                                cell.channelHostNameLabel.text = self.channels[indexPath.row].hostName
+
+                            }
 
                         }
 
@@ -196,7 +209,7 @@ class ParlourTableViewController: UITableViewController {
 
             } else {
 
-                print("channels is nil.")
+                print("channels is nil.)")
 
             }
 
@@ -226,6 +239,8 @@ class ParlourTableViewController: UITableViewController {
 
         performSegue(withIdentifier: "Go_To_ChatRoomViewController", sender: self)
 
+        Analytics.logEvent("Fetch_User_Tap_TableView_Image_To_Play_Video", parameters: nil)
+
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -250,19 +265,13 @@ class ParlourTableViewController: UITableViewController {
 
     @IBAction func inputYoutubeURLToSettingPage(_ sender: UIBarButtonItem) {
 
-        let alert = UIAlertController(title: "Paste Youtube URL", message: "Example: https://youtu.be/nSDgHBxUbVQ", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Paste Youtube URL", comment: ""), message: NSLocalizedString("Example: https://youtu.be/nSDgHBxUbVQ", comment: ""), preferredStyle: .alert)
 
-        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
 
             guard
                 let textFieldInputString = alert.textFields?[0].text
                 else { print("textFields[0] is nil.")
-                    return
-            }
-
-            guard
-                let uid = Auth.auth().currentUser?.uid
-                else { print(UserError.userIDNotFound)
                     return
             }
 
@@ -298,6 +307,8 @@ class ParlourTableViewController: UITableViewController {
         alert.addAction(cancelAction)
 
         present(alert, animated: true, completion: nil)
+
+        Analytics.logEvent("Input_Youtube_URL_To_SettingPage", parameters: nil)
 
     }
 

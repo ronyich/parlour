@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Crashlytics
 
 class ResetPasswordViewController: UIViewController {
 
@@ -16,6 +17,9 @@ class ResetPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapViewToEndEditing))
+        self.view.addGestureRecognizer(tapGesture)
+
     }
 
     @IBAction func sendResetPasswordAddressToEmail(_ sender: UIButton) {
@@ -23,8 +27,8 @@ class ResetPasswordViewController: UIViewController {
         guard
             let email = emailTextField.text
             else {
-                let alert = UIAlertController(title: "Input error.",
-                                              message: "Please input your email address for password reset.",
+                let alert = UIAlertController(title: NSLocalizedString("Input error.", comment: ""),
+                                              message: NSLocalizedString("Please input your email address for password reset.", comment: ""),
                                               preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -36,9 +40,9 @@ class ResetPasswordViewController: UIViewController {
 
         Auth.auth().sendPasswordReset(withEmail: email) { (error) in
 
-            let title = (error == nil) ? "Password reset Follow-up." : "Password reset Error."
+            let title = (error == nil) ? NSLocalizedString("Password reset Follow-up.", comment: "") : NSLocalizedString("Password reset Error.", comment: "")
 
-            let message = (error == nil) ? "We have just sent you a password reset email. Please check your inbox and follow the instructions to reset your password." : error?.localizedDescription
+            let message = (error == nil) ? NSLocalizedString("We have just sent you a password reset email. Please check your inbox and follow the instructions to reset your password.", comment: "") : error?.localizedDescription
 
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
@@ -60,11 +64,21 @@ class ResetPasswordViewController: UIViewController {
 
         }
 
+        Analytics.logEvent("Send_Reset_Password_Address_To_Email", parameters: nil)
+
     }
 
     @IBAction func cancelResetPasswordPage(_ sender: UIButton) {
 
         self.dismiss(animated: true)
+
+        Analytics.logEvent("Cancel_Reset_Password_Page", parameters: nil)
+
+    }
+
+    @objc func tapViewToEndEditing() {
+
+        emailTextField.endEditing(true)
 
     }
 

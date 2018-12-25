@@ -11,6 +11,8 @@ import Firebase
 import XCDYouTubeKit
 import AVKit
 import YouTubePlayer
+import NotificationBannerSwift
+import Crashlytics
 
 protocol ChatRoomDelegate: AnyObject {
 
@@ -120,6 +122,14 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
 
                 ] as YouTubePlayerView.YouTubePlayerParameters
 
+            let tapGestureRecognizer = UITapGestureRecognizer()
+            tapGestureRecognizer.addTarget(self, action: #selector(guestTapVideoNotification))
+
+            youtubePlayerView.addGestureRecognizer(tapGestureRecognizer)
+            youtubePlayerView.isUserInteractionEnabled = true
+
+            guestTapVideoNotification()
+
         }
 
         youtubePlayerView.loadVideoID(videoID)
@@ -131,6 +141,12 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
         guard
             let channel = channel
             else { print("channel is nil.")
+                return
+        }
+
+        guard
+            let uid = self.userDefault.string(forKey: "userID")
+            else { print(UserError.userIDNotFound)
                 return
         }
 
@@ -158,39 +174,27 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
                     return
             }
 
-            guard
-                let uid = self.userDefault.string(forKey: "userID")
-                else { print(UserError.userIDNotFound)
-                    return
-            }
-
-            // MARK: Start Timer
             if channel.hostID == uid {
 
-                // Every 5 seconds upload video currentTime to Firebase database.
-                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.uploadVideoCurrentTime), userInfo: nil, repeats: true)
+                // Host
 
             } else {
 
                 if playerState == "Playing" {
 
-                    //videoPlayer.seekTo(currentTime, seekAhead: true)
                     videoPlayer.play()
 
                 } else if playerState == "Paused" {
 
                     videoPlayer.pause()
-                    //videoPlayer.seekTo(currentTime, seekAhead: true)
 
                 } else if playerState == "Unstarted" {
 
-                    videoPlayer.play()
+                    videoPlayer.pause()
 
                 } else if playerState == "Buffering" {
 
                     videoPlayer.pause()
-                    videoPlayer.seekTo(currentTime, seekAhead: true)
-                    //videoPlayer.play()
 
                 } else if playerState == "Ended" {
 
@@ -198,11 +202,11 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
 
                 } else if playerState == "Queued" {
 
-                    //videoPlayer.play()
+                    // Queued
 
                 } else {
 
-                    //videoPlayer.play()
+                    // Other State
 
                 }
 
@@ -257,6 +261,9 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
                 channelsReference.child(channel.channelID).updateChildValues(["playerState": "Playing"])
 
                 channelsReference.child(channel.channelID).updateChildValues(["currentTime": currentTime])
+
+                // MARK: Start Timer - Every 5 seconds upload video currentTime to Firebase database.
+                self.timer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.uploadVideoCurrentTime), userInfo: nil, repeats: true)
 
                 print("Playing currentTime:", currentTime)
 
@@ -350,108 +357,12 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
 
     }
 
+    @objc func guestTapVideoNotification() {
+
+        let banner = NotificationBanner(title: NSLocalizedString("Notification", comment: ""), subtitle: NSLocalizedString("Current Video is control from chat room host.", comment: ""), style: .success)
+
+        banner.show()
+
+    }
+
 }
-
-// MARK: MessagesDataSource
-//extension ChatRoomViewController: MessagesDataSource {
-//
-//    func currentSender() -> Sender {
-//
-//        if let uid = Auth.auth().currentUser?.uid,
-//            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest(),
-//            let displayName = changeRequest.displayName {
-//
-//            return Sender(id: uid, displayName: displayName)
-//
-//        } else {
-//
-//            print("uid or displayName is nil.")
-//
-//        }
-//
-//        return Sender(id: "default", displayName: "default")
-//
-//    }
-//
-//    func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-//
-//        return messages[indexPath.section]
-//
-//    }
-//
-//    func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-//
-//        return messages.count
-//
-//    }
-
-//    func numberOfMessages(in messagesCollectionView: MessagesCollectionView) -> Int {
-//
-//        return
-//
-//    }
-
-//    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-//
-//        let name = message.sender.displayName
-//
-//        return NSAttributedString(string: name,
-//                                  attributes: [
-//                                    .font: UIFont.preferredFont(forTextStyle: .caption1),
-//                                    .foregroundColor: UIColor(white: 0.3, alpha: 1)
-//            ]
-//
-//        )
-//
-//    }
-
-//}
-
-// MARK: MessagesLayoutDelegate
-//extension ChatRoomViewController: MessagesLayoutDelegate {
-
-//    func avatarSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-//
-//        return .zero
-//
-//    }
-//
-//    func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-//
-//        return CGSize(width: 0, height: 8)
-//
-//    }
-//
-//    func heightForLocation(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-//
-//        return 0
-//
-//    }
-
-//}
-
-// MARK: MessagesDisplayDelegate
-//extension ChatRoomViewController: MessagesDisplayDelegate {
-//
-//    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-//
-//        return isFromCurrentSender(message: message) ? .primary : .incomingMessage
-//
-//    }
-//
-//    func shouldDisplayHeader(for message: MessageType, at indexPath: IndexPath,
-//                             in messagesCollectionView: MessagesCollectionView) -> Bool {
-//
-//        return false
-//
-//    }
-//
-//    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-//
-//        let corner: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
-//
-//        return .bubbleTail(corner, .curved)
-//
-//    }
-
-//}

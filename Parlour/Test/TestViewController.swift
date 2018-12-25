@@ -9,6 +9,7 @@
 import UIKit
 import XCDYouTubeKit
 import YouTubePlayer
+import NotificationBannerSwift
 
 class TestViewController: UIViewController, YouTubePlayerDelegate {
 
@@ -33,7 +34,7 @@ class TestViewController: UIViewController, YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {
 
         //videoPlayer.play()
-        videoPlayer.seekTo(50, seekAhead: true)
+        //videoPlayer.seekTo(50, seekAhead: true)
     }
 
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
@@ -55,4 +56,13 @@ class TestViewController: UIViewController, YouTubePlayerDelegate {
         }
     }
 
+    @IBAction func testNotified(_ sender: UIButton) {
+
+        let banner = NotificationBanner(title: "Test", subtitle: "Content", style: .info)
+        banner.show()
+
+        
+        print("tap testNotified")
+    }
+    
 }

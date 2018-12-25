@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import JGProgressHUD
+import Crashlytics
 
 class LoginViewController: UIViewController {
 
@@ -53,6 +54,9 @@ class LoginViewController: UIViewController {
 
         }
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapViewToEndEditing))
+        self.view.addGestureRecognizer(tapGesture)
+
     }
 
     @IBAction func loginToHomePage(_ sender: UIButton) {
@@ -72,7 +76,7 @@ class LoginViewController: UIViewController {
 
                 self.progressHUD(loadingText: "Loading...")
 
-                let alert = UIAlertController(title: "Sign in failed", message: error.localizedDescription, preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Sign in failed", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
 
                 let okAction = UIAlertAction(title: "OK", style: .default)
 
@@ -83,15 +87,23 @@ class LoginViewController: UIViewController {
             } else {
 
                 self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: self)
+
             }
 
         }
+
+        emailTextField.text = ""
+        passwordTextField.text = ""
+
+        Analytics.logEvent("Login_To_Home_Page", parameters: nil)
 
     }
 
     @IBAction func signUpNewUser(_ sender: UIButton) {
 
         performSegue(withIdentifier: "Segue_To_SignUpViewController", sender: self)
+
+        Analytics.logEvent("Go_To_Sign_Up_New_User_Page", parameters: nil)
 
     }
 
@@ -101,6 +113,15 @@ class LoginViewController: UIViewController {
         hud.textLabel.text = loadingText
         hud.show(in: self.view)
         hud.dismiss(afterDelay: 3.0)
+
+        Analytics.logEvent("Sign_Up_New_User", parameters: nil)
+
+    }
+
+    @objc func tapViewToEndEditing() {
+
+        emailTextField.endEditing(true)
+        passwordTextField.endEditing(true)
 
     }
 

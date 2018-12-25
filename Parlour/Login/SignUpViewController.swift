@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import JGProgressHUD
+import Crashlytics
 
 class SignUpViewController: UIViewController {
 
@@ -19,6 +20,9 @@ class SignUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapViewToEndEditing))
+        self.view.addGestureRecognizer(tapGesture)
 
     }
 
@@ -41,8 +45,8 @@ class SignUpViewController: UIViewController {
             confirmPassword == password
             else {
 
-                let alert = UIAlertController(title: "Password error.",
-                                              message: "ConfirmPassword is not equal Password.",
+                let alert = UIAlertController(title: NSLocalizedString("Password error.", comment: ""),
+                                              message: NSLocalizedString("ConfirmPassword is not equal Password.", comment: ""),
                                               preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -96,7 +100,7 @@ class SignUpViewController: UIViewController {
 
                 self.progressHUD(loadingText: "Register Success!")
 
-                self.dismiss(animated: true)
+                self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: nil)
 
             }
 
@@ -108,6 +112,8 @@ class SignUpViewController: UIViewController {
 
         self.dismiss(animated: true)
 
+        Analytics.logEvent("Cancel_Sign_Up_Page", parameters: nil)
+
     }
 
     func progressHUD(loadingText: String) {
@@ -118,4 +124,14 @@ class SignUpViewController: UIViewController {
         hud.dismiss(afterDelay: 3.0)
 
     }
+
+    @objc func tapViewToEndEditing() {
+
+        emailTextField.endEditing(true)
+        passwordTextField.endEditing(true)
+        confirmPasswordTextField.endEditing(true)
+        userNameTextField.endEditing(true)
+
+    }
+
 }

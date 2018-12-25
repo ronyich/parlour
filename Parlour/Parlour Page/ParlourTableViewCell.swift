@@ -13,7 +13,8 @@ class ParlourTableViewCell: UITableViewCell {
     @IBOutlet weak var videoImageView: UIImageView!
     @IBOutlet weak var channelTitleLabel: UILabel!
     @IBOutlet weak var channelHostNameLabel: UILabel!
-    
+    @IBOutlet weak var constraintView: UIView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
