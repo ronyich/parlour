@@ -139,8 +139,6 @@ class ChatViewController: UIViewController {
                                 return
                         }
 
-                        self.sender = Sender(id: uid, displayName: displayName)
-
                         let message = Message(sender: Sender(id: uid, displayName: displayName), messageId: messageID, sentDate: sentDate, kind: .text(content))
 
                         newMessages.append(message)

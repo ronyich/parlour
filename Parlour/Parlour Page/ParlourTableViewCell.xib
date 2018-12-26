@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -16,11 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="249.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="249.66666666666666"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mm9-vQ-PI6" userLabel="ConstraintView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="249.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="249.66666666666666"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yet-je-GF9">
                                 <rect key="frame" x="5" y="5" width="365" height="205"/>
@@ -50,7 +50,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="yO0-7g-1bi" secondAttribute="bottom" constant="9.5" id="CV8-8h-aeS"/>
                             <constraint firstItem="yO0-7g-1bi" firstAttribute="top" secondItem="yet-je-GF9" secondAttribute="bottom" constant="10" id="Cc6-Dl-6Gb"/>
@@ -60,8 +59,6 @@
                             <constraint firstAttribute="trailing" secondItem="yO0-7g-1bi" secondAttribute="trailing" constant="125" id="T4N-ig-O8U"/>
                             <constraint firstItem="yO0-7g-1bi" firstAttribute="leading" secondItem="mm9-vQ-PI6" secondAttribute="leading" constant="50" id="UoJ-u3-lof"/>
                             <constraint firstItem="0k4-fv-zGl" firstAttribute="leading" secondItem="mm9-vQ-PI6" secondAttribute="leading" constant="250" id="cQF-ye-cZE"/>
-                            <constraint firstAttribute="width" constant="375" id="crF-1v-px8"/>
-                            <constraint firstAttribute="height" constant="249.5" id="e6K-Rd-6pA"/>
                             <constraint firstAttribute="bottom" secondItem="0k4-fv-zGl" secondAttribute="bottom" constant="9.5" id="jtR-OG-9MU"/>
                             <constraint firstItem="yet-je-GF9" firstAttribute="leading" secondItem="mm9-vQ-PI6" secondAttribute="leading" constant="5" id="pEA-UZ-mgt"/>
                             <constraint firstItem="yet-je-GF9" firstAttribute="top" secondItem="mm9-vQ-PI6" secondAttribute="top" constant="5" id="vY7-kg-Oqb"/>

@@ -101,9 +101,17 @@ class ParlourTableViewController: UITableViewController {
                             return
                     }
 
-                    let channel = Channel(hostID: hostID, title: title, type: type, isLive: isLive, password: password, youtubeID: youtubeID, channelID: channelID, playerState: playerState, currentTime: currentTime, hostName: hostName)
+                    if playerState == "Playing" {
 
-                    newChannels.append(channel)
+                        let channel = Channel(hostID: hostID, title: title, type: type, isLive: isLive, password: password, youtubeID: youtubeID, channelID: channelID, playerState: playerState, currentTime: currentTime, hostName: hostName)
+
+                        newChannels.append(channel)
+
+                    } else {
+
+                        // playerState is other state.
+
+                    }
 
                 }
 
@@ -206,6 +214,10 @@ class ParlourTableViewController: UITableViewController {
                     }).resume()
 
                 }
+
+            } else if channels.count == 0 {
+
+                print("channels is nil.)")
 
             } else {
 
