@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import JGProgressHUD
+import NotificationBannerSwift
 import Crashlytics
 
 class SignUpViewController: UIViewController {
@@ -29,14 +30,26 @@ class SignUpViewController: UIViewController {
     @IBAction func signUpNewUser(_ sender: UIButton) {
 
         guard
-            let email = emailTextField.text
-            else { print("Email Input error.")
+            let email = emailTextField.text,
+            email.count >= 7
+            else {
+
+                let banner = NotificationBanner(title: NSLocalizedString("Notification", comment: ""), subtitle: NSLocalizedString("Please check email adress format, or this email is already in use by another account.", comment: ""), style: .info)
+
+                banner.show()
+
                 return
         }
 
         guard
-            let password = passwordTextField.text
-            else { print("Password Input error.")
+            let password = passwordTextField.text,
+            password.count >= 6
+            else {
+
+                let banner = NotificationBanner(title: NSLocalizedString("Notification", comment: ""), subtitle: NSLocalizedString("Password must over 5 character.", comment: ""), style: .info)
+
+                banner.show()
+
                 return
         }
 
@@ -45,25 +58,32 @@ class SignUpViewController: UIViewController {
             confirmPassword == password
             else {
 
-                let alert = UIAlertController(title: NSLocalizedString("Password error.", comment: ""),
-                                              message: NSLocalizedString("ConfirmPassword is not equal Password.", comment: ""),
-                                              preferredStyle: .alert)
+                let banner = NotificationBanner(title: NSLocalizedString("Password error.", comment: ""), subtitle: NSLocalizedString("ConfirmPassword is not equal Password.", comment: ""), style: .info)
 
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-                present(alert, animated: true)
+                banner.show()
 
                 return
         }
 
         guard
-            let userName = userNameTextField.text
-            else { print("UserName Input error.")
+            let userName = userNameTextField.text,
+            userName.count >= 1
+            else {
+
+                let banner = NotificationBanner(title: NSLocalizedString("Notification", comment: ""), subtitle: NSLocalizedString("UserName must over 0 character, or UserName already sign up.", comment: ""), style: .info)
+
+                banner.show()
+
                 return
         }
 
         Auth.auth().createUser(withEmail: email, password: password, completion: { (_, error) in
 
             if let error = error {
+
+                let banner = NotificationBanner(title: NSLocalizedString("Notification", comment: ""), subtitle: NSLocalizedString("Please check email adress format, or this email is already in use by another account.", comment: ""), style: .info)
+
+                banner.show()
 
                 print("Create new user authorization error.", error.localizedDescription)
 
@@ -99,6 +119,11 @@ class SignUpViewController: UIViewController {
                 Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: nil)
 
                 self.progressHUD(loadingText: "Register Success!")
+
+                self.emailTextField.text = ""
+                self.passwordTextField.text = ""
+                self.confirmPasswordTextField.text = ""
+                self.userNameTextField.text = ""
 
                 self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: nil)
 

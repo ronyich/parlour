@@ -11,15 +11,23 @@
 "Please Input your chat room title over 1 character." = "聊天室標題必須為1個以上字元。";
 "Paste Youtube URL" = "請輸入或貼上 Youtube 短網址";
 "Example: https://youtu.be/nSDgHBxUbVQ" = "格式範例：https://youtu.be/nSDgHBxUbVQ";
+
 "Notification" = "通知";
 "Current Video is control from chat room host." = "目前影片的控制權為實況主所有，觀眾無法操作。";
 
 // MARK: Login
-"Sign in failed" = "登入失敗，請確認輸入的帳號與密碼";
+"Sign in failed" = "登入失敗，請確認輸入的帳號與密碼。";
+"Login Failed" = "登入失敗";
+"Please check email adress and password." = "請檢查Email與密碼是否正確。";
 "Input error." = "輸入錯誤。";
 "Please input your email address for password reset." = "請輸入正確的Email重新設定密碼。";
+
 "Password reset Follow-up." = "密碼重置已送出";
-"Password reset Error." = "密碼重置錯誤。";
+"Password reset Error." = "密碼重置錯誤，請檢查Email格式。";
 "We have just sent you a password reset email. Please check your inbox and follow the instructions to reset your password." = "請檢查Email並按照說明重設密碼。";
 "Password error." = "密碼錯誤";
 "ConfirmPassword is not equal Password." = "密碼與確認密碼欄位必須相同。";
+
+"Please check email adress format, or this email is already in use by another account." = "請檢查Email格式，或此Email已經有帳號註冊。";
+"Password must over 5 character." = "密碼長度必須為6位數以上。";
+"UserName must over 0 character, or UserName already sign up." = "使用者名稱必須為1位數以上，或此名稱已有帳號註冊。";

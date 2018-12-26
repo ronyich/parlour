@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import JGProgressHUD
 import Crashlytics
+import NotificationBannerSwift
 
 class LoginViewController: UIViewController {
 
@@ -74,17 +75,13 @@ class LoginViewController: UIViewController {
 
             if let error = error, user == nil {
 
-                self.progressHUD(loadingText: "Loading...")
-
-                let alert = UIAlertController(title: NSLocalizedString("Sign in failed", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-
-                let okAction = UIAlertAction(title: "OK", style: .default)
-
-                alert.addAction(okAction)
-
-                self.present(alert, animated: true)
+                let banner = NotificationBanner(title: NSLocalizedString("Login Failed", comment: ""), subtitle: NSLocalizedString("Please check email adress and password.", comment: ""), style: .info)
+                
+                banner.show()
 
             } else {
+
+                self.progressHUD(loadingText: "Loading...")
 
                 self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: self)
 
