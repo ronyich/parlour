@@ -9,10 +9,14 @@
 import UIKit
 import Firebase
 import XCDYouTubeKit
+import MessageKit
 import YouTubePlayer
 import Crashlytics
+import NotificationBannerSwift
 
 class ParlourTableViewController: UITableViewController {
+
+    var sender: Sender?
 
     var channel: Channel?
 
@@ -27,9 +31,11 @@ class ParlourTableViewController: UITableViewController {
 
         tableView.register(UINib(nibName: "ParlourTableViewCell", bundle: nil), forCellReuseIdentifier: "ParlourTableViewCell")
 
-        channelsReference.observe(.value) { (snapshot) in
+        channelsReference.queryOrdered(byChild: "playerState").queryEqual(toValue: "Playing").observe(.value) { (snapshot) in
 
             var newChannels: [Channel] = []
+
+            print("snapshot.children", snapshot.childrenCount)
 
             for child in snapshot.children {
 
@@ -113,15 +119,15 @@ class ParlourTableViewController: UITableViewController {
 
                     }
 
+                    DispatchQueue.main.async {
+
+                        self.channels = newChannels
+                        self.tableView.reloadData()
+
+                    }
+
                 }
 
-            }
-
-            DispatchQueue.main.async {
-
-                self.channels = newChannels
-
-                self.tableView.reloadData()
             }
 
         }
@@ -204,6 +210,7 @@ class ParlourTableViewController: UITableViewController {
                                 cell.videoImageView.image = UIImage(data: data)
                                 cell.videoImageView.contentMode = .scaleAspectFit
 
+                                //crash
                                 cell.channelTitleLabel.text = self.channels[indexPath.row].title
                                 cell.channelHostNameLabel.text = self.channels[indexPath.row].hostName
 
@@ -217,7 +224,9 @@ class ParlourTableViewController: UITableViewController {
 
             } else if channels.count == 0 {
 
-                print("channels is nil.)")
+                let banner = NotificationBanner(title: NSLocalizedString("Welcome to Parlour", comment: ""), subtitle: NSLocalizedString("There is currently no video chat, tap + button to open a video.", comment: ""), style: .info)
+
+                banner.show()
 
             } else {
 
@@ -243,8 +252,14 @@ class ParlourTableViewController: UITableViewController {
 
         guard
             channels.count >= 1
-            else { print("channels = 0.")
+            else {
+
+                let banner = NotificationBanner(title: NSLocalizedString("Live is over", comment: ""), subtitle: NSLocalizedString("Please tap refresh button or add a new live chat.", comment: ""), style: .danger)
+
+                banner.show()
+
                 return
+
         }
 
         self.channel = channels[indexPath.row]
@@ -282,8 +297,8 @@ class ParlourTableViewController: UITableViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
 
             guard
-                let textFieldInputString = alert.textFields?[0].text
-                else { print("textFields[0] is nil.")
+                let textFieldInputString = alert.textFields?.first?.text
+                else { print("textFields.first is nil.")
                     return
             }
 
@@ -329,7 +344,7 @@ class ParlourTableViewController: UITableViewController {
         // Set color value in CAGradientLayer.swift
         guard
             let navigationController = navigationController,
-            let flareGradientImage = CAGradientLayer.primaryGradient(on: navigationController.navigationBar)
+            let flareGradientImage = CAGradientLayer.darkGrayGradation(on: navigationController.navigationBar)
             else {
                 print("Error creating gradient color!")
                 return

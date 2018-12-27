@@ -15,6 +15,8 @@ import Crashlytics
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    static let applicationDidBecomeActive = "applicationDidBecomeActive"
+
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -29,6 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
 
         return true
+
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+
+        NotificationCenter.default.post(Notification(name: Notification.Name("applicationDidBecomeActive")))
 
     }
 

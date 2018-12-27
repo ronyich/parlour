@@ -125,14 +125,42 @@
                                     <segue destination="AWI-m6-NSi" kind="show" id="oZ5-5T-qSo"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R82-Fu-z4X">
+                                <rect key="frame" x="70" y="497" width="235" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="f3b-3p-5Ed"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                                <state key="normal" title="Privacy Policy">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                        <color key="value" red="0.85957932469999998" green="0.40118402240000001" blue="0.29446059470000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="htp-fr-29p" kind="show" id="Nsa-LU-RIK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="rVr-8a-b6O" firstAttribute="leading" secondItem="XlQ-3u-j7O" secondAttribute="leadingMargin" constant="54" id="4es-dh-Iw7"/>
                             <constraint firstItem="BDK-c8-Hyg" firstAttribute="top" secondItem="ISb-66-P0e" secondAttribute="bottom" constant="20" id="5cB-ek-yLB"/>
                             <constraint firstItem="iNa-w7-jRo" firstAttribute="leading" secondItem="XlQ-3u-j7O" secondAttribute="leadingMargin" constant="54" id="6Vg-om-EDr"/>
+                            <constraint firstItem="R82-Fu-z4X" firstAttribute="leading" secondItem="XlQ-3u-j7O" secondAttribute="leadingMargin" constant="54" id="8iI-CM-qPb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xjd-0i-kwj" secondAttribute="trailing" constant="54" id="BXx-eT-2tU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="R82-Fu-z4X" secondAttribute="trailing" constant="54" id="Mt5-Qr-TZN"/>
                             <constraint firstItem="rVr-8a-b6O" firstAttribute="top" secondItem="0du-bJ-eXy" secondAttribute="bottom" constant="116" id="UWW-Pc-v12"/>
+                            <constraint firstItem="R82-Fu-z4X" firstAttribute="top" secondItem="iNa-w7-jRo" secondAttribute="bottom" constant="16" id="V63-bQ-wZj"/>
                             <constraint firstItem="xjd-0i-kwj" firstAttribute="leading" secondItem="XlQ-3u-j7O" secondAttribute="leadingMargin" constant="54" id="VZC-UM-42J"/>
                             <constraint firstItem="ISb-66-P0e" firstAttribute="top" secondItem="rVr-8a-b6O" secondAttribute="bottom" constant="8" id="Viy-Pc-hNd"/>
                             <constraint firstItem="0du-bJ-eXy" firstAttribute="top" secondItem="nFq-d5-lJ1" secondAttribute="bottom" constant="52" id="Wz7-Ep-ahC"/>
@@ -989,11 +1017,87 @@
             </objects>
             <point key="canvasLocation" x="2737" y="-1322"/>
         </scene>
+        <!--Privacy Policy View Controller-->
+        <scene sceneID="0Wg-Cg-e7Y">
+            <objects>
+                <viewController id="htp-fr-29p" customClass="PrivacyPolicyViewController" customModule="Parlour" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XVS-QQ-Krb"/>
+                        <viewControllerLayoutGuide type="bottom" id="bRG-MQ-Bki"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ack-AM-qTK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaG-WT-FVE">
+                                <rect key="frame" x="0.0" y="72" width="375" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="2Xw-Jb-rBu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="45"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8kM-oa-0pX">
+                                <rect key="frame" x="16" y="139" width="343" height="462"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6B-7m-bBa">
+                                <rect key="frame" x="70" y="609" width="235" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="emo-3i-hh3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                        <color key="value" red="0.85957932469999998" green="0.40118402240000001" blue="0.29446059470000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="cancelPrivacyPolicyPage:" destination="htp-fr-29p" eventType="touchUpInside" id="zx6-Pg-YwZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="K6B-7m-bBa" firstAttribute="top" secondItem="8kM-oa-0pX" secondAttribute="bottom" constant="8" id="5vm-KK-nIV"/>
+                            <constraint firstItem="8kM-oa-0pX" firstAttribute="leading" secondItem="vvh-24-58b" secondAttribute="leading" constant="16" id="9nx-Kx-fIA"/>
+                            <constraint firstItem="8kM-oa-0pX" firstAttribute="top" secondItem="ZaG-WT-FVE" secondAttribute="bottom" constant="8" id="Ik4-sV-L0S"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="K6B-7m-bBa" secondAttribute="trailing" constant="54" id="LUG-aO-qbe"/>
+                            <constraint firstItem="vvh-24-58b" firstAttribute="trailing" secondItem="8kM-oa-0pX" secondAttribute="trailing" constant="16" id="TMJ-2J-AEo"/>
+                            <constraint firstItem="vvh-24-58b" firstAttribute="trailing" secondItem="ZaG-WT-FVE" secondAttribute="trailing" id="b8e-8i-bed"/>
+                            <constraint firstItem="K6B-7m-bBa" firstAttribute="leading" secondItem="ack-AM-qTK" secondAttribute="leadingMargin" constant="54" id="fzN-3m-N9U"/>
+                            <constraint firstItem="ZaG-WT-FVE" firstAttribute="leading" secondItem="vvh-24-58b" secondAttribute="leading" id="jrG-hI-G5g"/>
+                            <constraint firstAttribute="centerX" secondItem="ZaG-WT-FVE" secondAttribute="centerX" id="nL1-pU-ZMB"/>
+                            <constraint firstItem="ZaG-WT-FVE" firstAttribute="top" secondItem="XVS-QQ-Krb" secondAttribute="bottom" constant="52" id="nQE-vS-Zvn"/>
+                            <constraint firstItem="bRG-MQ-Bki" firstAttribute="top" secondItem="K6B-7m-bBa" secondAttribute="bottom" constant="20" id="rHU-Uj-yxe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="vvh-24-58b"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="c3L-Ph-GXR"/>
+                    <connections>
+                        <outlet property="webView" destination="8kM-oa-0pX" id="5Jb-fM-nPS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hxc-6o-zX6" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3258.4000000000001" y="986.35682158920542"/>
+        </scene>
     </scenes>
     <resources>
         <image name="icon-exit" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Lbd-Zk-KSd"/>
+        <segue reference="Zks-sd-MsP"/>
     </inferredMetricsTieBreakers>
 </document>

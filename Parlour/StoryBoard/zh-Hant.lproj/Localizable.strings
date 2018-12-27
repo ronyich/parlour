@@ -14,6 +14,9 @@
 
 "Notification" = "通知";
 "Current Video is control from chat room host." = "目前影片的控制權為實況主所有，觀眾無法操作。";
+"Live is over" = "實況已結束";
+"Please tap refresh button or add a new live chat." = "請點選重新整理按鈕，或新增一個實況聊天室。";
+"There is currently no video chat, tap + button to open a video." = "目前沒有實況聊天室，點擊 + 按鈕來新增。";
 
 // MARK: Login
 "Sign in failed" = "登入失敗，請確認輸入的帳號與密碼。";

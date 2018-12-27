@@ -41,6 +41,7 @@
 		6854833421C3B67D00C6FC0A /* VideoOptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */; };
 		6854833621C51EF500C6FC0A /* LiveChatSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */; };
 		6854833821C75ED700C6FC0A /* LiveChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6854833721C75ED700C6FC0A /* LiveChatSettingViewController.swift */; };
+		68AABC9E21D4DC7E00887781 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AABC9D21D4DC7E00887781 /* PrivacyPolicyViewController.swift */; };
 		68D756D821AD4E15005C0A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D721AD4E15005C0A5B /* AppDelegate.swift */; };
 		68D756DA21AD4E15005C0A5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D756D921AD4E15005C0A5B /* LoginViewController.swift */; };
 		68D756DD21AD4E15005C0A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D756DB21AD4E15005C0A5B /* Main.storyboard */; };
@@ -90,6 +91,7 @@
 		6854833221C3B67D00C6FC0A /* VideoOptionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoOptionTableViewCell.xib; sourceTree = "<group>"; };
 		6854833521C51EF500C6FC0A /* LiveChatSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatSettingTableViewController.swift; sourceTree = "<group>"; };
 		6854833721C75ED700C6FC0A /* LiveChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatSettingViewController.swift; sourceTree = "<group>"; };
+		68AABC9D21D4DC7E00887781 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		68D756D421AD4E15005C0A5B /* Parlour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parlour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D756D721AD4E15005C0A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D756D921AD4E15005C0A5B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				68D756D921AD4E15005C0A5B /* LoginViewController.swift */,
 				68D756EE21AD8A81005C0A5B /* SignUpViewController.swift */,
 				68D756F021AD9D61005C0A5B /* ResetPasswordViewController.swift */,
+				68AABC9D21D4DC7E00887781 /* PrivacyPolicyViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				6854833321C3B67D00C6FC0A /* VideoOptionTableViewCell.swift in Sources */,
 				6828C7C021C0F7A800BE14CC /* VideoControl.swift in Sources */,
 				6854833821C75ED700C6FC0A /* LiveChatSettingViewController.swift in Sources */,
+				68AABC9E21D4DC7E00887781 /* PrivacyPolicyViewController.swift in Sources */,
 				6854832821C2E20F00C6FC0A /* VideoPlayTableViewCell.swift in Sources */,
 				6828C78821AFC75E00BE14CC /* Message.swift in Sources */,
 				6828C7B121BF942E00BE14CC /* ErrorHandle.swift in Sources */,

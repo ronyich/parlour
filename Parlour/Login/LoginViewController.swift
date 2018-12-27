@@ -41,8 +41,8 @@ class LoginViewController: UIViewController {
 
             self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: self)
 
-            self.emailTextField.text = nil
-            self.passwordTextField.text = nil
+            self.emailTextField.text = ""
+            self.passwordTextField.text = ""
 
             guard
                 let userID = self.user?.uid
@@ -76,21 +76,23 @@ class LoginViewController: UIViewController {
             if let error = error, user == nil {
 
                 let banner = NotificationBanner(title: NSLocalizedString("Login Failed", comment: ""), subtitle: NSLocalizedString("Please check email adress and password.", comment: ""), style: .info)
-                
+
                 banner.show()
+
+                print(error)
 
             } else {
 
                 self.progressHUD(loadingText: "Loading...")
+
+                self.emailTextField.text = ""
+                self.passwordTextField.text = ""
 
                 self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: self)
 
             }
 
         }
-
-        emailTextField.text = ""
-        passwordTextField.text = ""
 
         Analytics.logEvent("Login_To_Home_Page", parameters: nil)
 

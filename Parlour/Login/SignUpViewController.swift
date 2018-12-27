@@ -110,22 +110,24 @@ class SignUpViewController: UIViewController {
 
                         print("Fail to change displayName:\(error.localizedDescription)")
 
+                    } else {
+
+                        self.progressHUD(loadingText: "Registering...")
+
+                        Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: nil)
+
+                        self.progressHUD(loadingText: "Register Success!")
+
+                        self.emailTextField.text = ""
+                        self.passwordTextField.text = ""
+                        self.confirmPasswordTextField.text = ""
+                        self.userNameTextField.text = ""
+
+                        self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: nil)
+
                     }
 
                 })
-
-                self.progressHUD(loadingText: "Registering...")
-
-                Auth.auth().signIn(withEmail: loginEmail, password: loginPassword, completion: nil)
-
-                self.progressHUD(loadingText: "Register Success!")
-
-                self.emailTextField.text = ""
-                self.passwordTextField.text = ""
-                self.confirmPasswordTextField.text = ""
-                self.userNameTextField.text = ""
-
-                self.performSegue(withIdentifier: "Segue_To_NavigationController", sender: nil)
 
             }
 

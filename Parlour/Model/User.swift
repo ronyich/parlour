@@ -13,17 +13,22 @@ struct User {
 
     let uid: String
     let email: String
+    //let displayName: String
 
     init(authData: Firebase.User) {
-
-        uid = authData.uid
 
         guard
             let email = authData.email
             else { fatalError("Email is nil.")
         }
 
+//        guard
+//            let displayName = authData.displayName
+//            else { fatalError("displayName is nil.") }
+
+        self.uid = authData.uid
         self.email = email
+        //self.displayName = displayName
 
     }
 
@@ -31,6 +36,7 @@ struct User {
 
         self.uid = uid
         self.email = email
+        //self.displayName = displayName
 
     }
 

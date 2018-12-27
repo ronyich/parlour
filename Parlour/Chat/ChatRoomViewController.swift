@@ -38,8 +38,6 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
 
     private var messages: [Message] = []
 
-    private var user = User(uid: "", email: "")
-
     var timer: Timer?
 
     var videos: [Video] = []
@@ -176,7 +174,7 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
 
             if channel.hostID == uid {
 
-                // Host
+                NotificationCenter.default.addObserver(self, selector: #selector(self.whenHostTapHomeButtonTwicePauseVideo), name: NSNotification.Name(rawValue: AppDelegate.applicationDidBecomeActive), object: nil)
 
             } else {
 
@@ -362,6 +360,24 @@ class ChatRoomViewController: UIViewController, YouTubePlayerDelegate {
         let banner = NotificationBanner(title: NSLocalizedString("Notification", comment: ""), subtitle: NSLocalizedString("Current Video is control from chat room host.", comment: ""), style: .success)
 
         banner.show()
+
+    }
+
+    @objc func whenHostTapHomeButtonTwicePauseVideo() {
+
+        guard
+            let channel = channel
+            else { print("channel is nil.")
+                return
+        }
+
+        youtubePlayerView.pause()
+
+        channelsReference.child(channel.channelID).updateChildValues(["playerState": "Paused"])
+
+        channelsReference.child(channel.channelID).updateChildValues(["currentTime": currentTime])
+
+        self.timer?.invalidate()
 
     }
 
